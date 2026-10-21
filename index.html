@@ -1,0 +1,1454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CCA-F Domain 1 Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: an index view linking to three study views and one combined quiz view; one readable column, sticky nav, wide things scroll in their own boxes. */
+:root {
+  --bg: #F2F5F4;
+  --surface: #FFFFFF;
+  --ink: #142120;
+  --muted: #55625F;
+  --line: #D3DCD9;
+  --accent: #0A6B63;
+  --accent-soft: #DDEFEB;
+  --trap: #9C430C;
+  --trap-soft: #FBEADD;
+  --good: #23743A;
+  --good-soft: #E1F2E4;
+  --bad: #AE2A20;
+  --bad-soft: #FBE4E1;
+  --code-bg: #14201F;
+  --code-ink: #DCE7E4;
+  --tk-key: #7FD6C9;
+  --tk-str: #F2C27A;
+  --tk-com: #7D8F8B;
+  --tk-fn: #9EC3FF;
+  --tk-num: #F59E8B;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1514; --surface: #162120; --ink: #E3ECE9; --muted: #97A6A2; --line: #2A3735;
+    --accent: #52C2B4; --accent-soft: #15302C; --trap: #F2A266; --trap-soft: #3A2516;
+    --good: #6BCB83; --good-soft: #17301E; --bad: #F0857B; --bad-soft: #3B1A17;
+    --code-bg: #091010; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1514; --surface: #162120; --ink: #E3ECE9; --muted: #97A6A2; --line: #2A3735;
+  --accent: #52C2B4; --accent-soft: #15302C; --trap: #F2A266; --trap-soft: #3A2516;
+  --good: #6BCB83; --good-soft: #17301E; --bad: #F0857B; --bad-soft: #3B1A17;
+  --code-bg: #091010; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+html { scroll-padding-top: calc(64px + env(safe-area-inset-top, 0px)); }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.65; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap {
+  max-width: 920px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 3.3rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: 1.3rem; font-weight: 700; margin-top: 10px; }
+h4 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--accent-soft); color: var(--ink); padding: 0.08em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.muted { color: var(--muted); }
+
+/* Nav */
+nav.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.bar .wrap { display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; align-items: center; }
+nav.bar a { flex: none; text-decoration: none; color: var(--ink); font-size: 0.92rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; }
+nav.bar a:hover, nav.bar a:focus-visible { background: var(--accent-soft); color: var(--accent); outline: none; }
+nav.bar a[aria-current="page"] { background: var(--accent); color: var(--surface); }
+nav.bar a .n { font-family: var(--font-mono); margin-right: 6px; font-size: 0.8rem; opacity: 0.8; }
+
+/* View head */
+.vhead { background: var(--surface); border-bottom: 1px solid var(--line); }
+.vhead .wrap { padding-block: 36px 28px; display: grid; gap: 12px; }
+.crumb { font-size: 0.9rem; font-weight: 700; text-decoration: none; }
+.crumb:hover { text-decoration: underline; }
+.lede { font-size: 1.1rem; color: var(--muted); }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; }
+.toc button { font: inherit; font-size: 0.86rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.toc button:hover, .toc button:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+.toc button.q-chip { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+
+.body .wrap { display: grid; gap: 22px; padding-block: 36px 24px; }
+.sub { display: grid; gap: 18px; padding-top: 18px; }
+.sub + .sub { border-top: 1px solid var(--line); padding-top: 34px; }
+
+/* Index */
+.cards { display: grid; gap: 14px; }
+.card { display: grid; grid-template-columns: 64px 1fr; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
+.card:hover, .card:focus-visible { border-color: var(--accent); outline: none; transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+.card .num { font-family: var(--font-display); font-weight: 800; font-size: 2.4rem; color: var(--accent); line-height: 1; }
+.card > div { min-width: 0; display: grid; gap: 6px; }
+.card h3 { margin: 0; }
+.card ul { margin: 0; padding-left: 1.1em; color: var(--muted); font-size: 0.95rem; columns: 2 220px; column-gap: 24px; }
+.card .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.85rem; }
+.card .go { font-weight: 700; color: var(--accent); }
+.card.quizcard { background: var(--accent-soft); border-color: var(--accent); }
+.best { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--bg); color: var(--muted); border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.best.done { background: var(--good-soft); color: var(--good); border-color: var(--good); }
+@media (max-width: 520px) { .card { grid-template-columns: 1fr; gap: 8px; } .card .num { font-size: 1.8rem; } }
+
+/* Boxes */
+.memo { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 12px; }
+.memo ol, .memo ul { margin: 0; padding-left: 1.4em; display: grid; gap: 6px; }
+.memo li::marker { font-family: var(--font-mono); color: var(--accent); font-weight: 600; }
+.summary { background: var(--surface); border: 1px solid var(--accent); border-radius: 14px; padding: 20px 22px; display: grid; gap: 10px; }
+.summary ul { margin: 0; padding-left: 1.2em; display: grid; gap: 5px; }
+.key { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 14px 18px; border-radius: 0 10px 10px 0; }
+.key p { max-width: none; }
+.key strong { color: var(--accent); }
+.trap { border: 1px solid var(--trap); background: var(--trap-soft); border-radius: 10px; padding: 14px 18px; display: grid; gap: 6px; }
+.trap .lbl { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--trap); font-weight: 600; }
+.trap p { max-width: none; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; }
+.steps li::before { content: counter(s); font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--surface); }
+.steps li > div { min-width: 0; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+td:first-child { white-space: nowrap; }
+
+.pill { display: inline-block; font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.pill.go { background: var(--good-soft); color: var(--good); }
+.pill.stop { background: var(--accent-soft); color: var(--accent); }
+.pill.warn { background: var(--trap-soft); color: var(--trap); }
+.pill.no { background: var(--bad-soft); color: var(--bad); }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.compare > div { min-width: 0; border-radius: 12px; padding: 16px; border: 1px solid var(--line); background: var(--surface); display: grid; gap: 8px; align-content: start; }
+.compare .bad { border-top: 4px solid var(--bad); }
+.compare .good { border-top: 4px solid var(--good); }
+.compare .warnb { border-top: 4px solid var(--trap); }
+.compare h4 .pill { margin-left: 6px; vertical-align: 2px; }
+
+.grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.grid4 > div { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.grid4 .t { font-family: var(--font-display); font-weight: 700; }
+.grid4 .d { font-size: 0.93rem; color: var(--muted); }
+
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; overflow-x: auto; }
+figure svg { display: block; width: 100%; height: auto; min-width: 520px; }
+figcaption { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
+svg text { font-family: var(--font-body); fill: var(--ink); }
+svg .mono { font-family: var(--font-mono); }
+svg .node { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+svg .node-strong { fill: var(--accent); stroke: var(--accent); }
+svg .on-strong { fill: var(--surface); font-weight: 700; }
+svg .edge { stroke: var(--accent); stroke-width: 2; fill: none; }
+svg .edge-bad { stroke: var(--bad); stroke-width: 2; fill: none; stroke-dasharray: 6 5; }
+svg .exit { fill: var(--good-soft); stroke: var(--good); stroke-width: 2; }
+svg .small { font-size: 12px; fill: var(--muted); }
+svg .bad-t { fill: var(--bad); font-weight: 700; }
+svg .good-t { fill: var(--good); font-weight: 700; }
+svg .arrow { fill: var(--accent); }
+svg .arrow-good { fill: var(--good); }
+svg .bar-seq { fill: var(--trap); }
+svg .bar-par { fill: var(--accent); }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+
+.code { position: relative; min-width: 0; }
+.code .cap { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--code-bg); color: var(--tk-com); font-family: var(--font-mono); font-size: 0.78rem; padding: 8px 14px; border-radius: 12px 12px 0 0; border-bottom: 1px solid #ffffff14; }
+.code .cap button { font: inherit; color: var(--code-ink); background: #ffffff12; border: 1px solid #ffffff22; border-radius: 6px; padding: 2px 10px; cursor: pointer; }
+.code .cap button:focus-visible { outline: 2px solid var(--tk-key); }
+.code pre { margin: 0; background: var(--code-bg); color: var(--code-ink); padding: 14px 16px; border-radius: 0 0 12px 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.84rem; line-height: 1.6; tab-size: 4; }
+.code pre code { background: none; padding: 0; color: inherit; font-size: inherit; overflow-wrap: normal; }
+.token.comment { color: var(--tk-com); font-style: italic; }
+.token.keyword, .token.boolean, .token.builtin { color: var(--tk-key); }
+.token.string, .token.triple-quoted-string, .token.property { color: var(--tk-str); }
+.token.function, .token.class-name, .token.decorator { color: var(--tk-fn); }
+.token.number { color: var(--tk-num); }
+.token.operator, .token.punctuation { color: var(--code-ink); }
+
+details.bug { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+details.bug > summary { cursor: pointer; padding: 12px 16px; font-weight: 700; list-style: none; display: flex; gap: 10px; align-items: center; }
+details.bug > summary::-webkit-details-marker { display: none; }
+details.bug > summary::before { content: "+"; font-family: var(--font-mono); width: 22px; height: 22px; display: grid; place-items: center; border-radius: 6px; background: var(--accent-soft); color: var(--accent); flex: none; }
+details.bug[open] > summary::before { content: "–"; }
+details.bug > summary:focus-visible { outline: 2px solid var(--accent); border-radius: 12px; }
+details.bug .body { padding: 0 16px 16px; display: grid; gap: 10px; }
+
+/* Quiz */
+.quiz { display: grid; gap: 14px; }
+.qhead { position: sticky; top: calc(52px + env(safe-area-inset-top, 0px)); z-index: 3; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
+.score { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600; font-size: 0.9rem; }
+.qctl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { font: inherit; font-weight: 700; font-size: 0.88rem; border-radius: 8px; padding: 5px 12px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
+.btn:hover { background: var(--accent-soft); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; }
+.q .qt { font-weight: 700; }
+.q .qt .num { font-family: var(--font-mono); color: var(--accent); margin-right: 8px; }
+.q .tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.q .opts { display: grid; gap: 8px; }
+.q .opt { text-align: left; font: inherit; font-size: 0.97rem; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+.q .opt:hover:not(:disabled) { border-color: var(--accent); }
+.q .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.q .opt:disabled { cursor: default; }
+.q .opt.right { background: var(--good-soft); border-color: var(--good); }
+.q .opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.q .why { font-size: 0.94rem; border-left: 3px solid var(--accent); padding-left: 12px; }
+.q .why b.ok { color: var(--good); }
+.q .why b.ko { color: var(--bad); }
+.qsum { background: var(--surface); border: 2px solid var(--accent); border-radius: 14px; padding: 18px 20px; display: grid; gap: 10px; }
+.qsum .big { font-family: var(--font-display); font-weight: 800; font-size: 2rem; font-variant-numeric: tabular-nums; }
+.qsum table { font-size: 0.92rem; }
+
+.pager { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding-top: 10px; }
+.pager a { display: grid; gap: 2px; text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; color: var(--ink); }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
+.pager a .k { font-size: 0.8rem; color: var(--muted); }
+.pager a .v { font-weight: 700; color: var(--accent); }
+.pager a.next { text-align: right; }
+
+footer { padding-block: 40px 64px; color: var(--muted); font-size: 0.9rem; }
+.notes { display: grid; gap: 8px; }
+.notes ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  td:first-child { white-space: normal; }
+  .steps li { grid-template-columns: 30px 1fr; gap: 10px; }
+  .pager a.next { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="Pages">
+  <div class="wrap">
+    <a href="#home" data-view="home">Index</a>
+    <a href="#loop" data-view="loop"><span class="n">01</span>Agentic loop</a>
+    <a href="#hub" data-view="hub"><span class="n">02</span>Hub &amp; spoke</a>
+    <a href="#task" data-view="task"><span class="n">03</span>Task tool</a>
+    <a href="#quiz" data-view="quiz">All quizzes</a>
+  </div>
+</nav>
+
+<!-- =================================================================== INDEX -->
+<div id="v-home" class="view">
+  <header class="vhead">
+    <div class="wrap">
+      <span class="eyebrow">Claude Certified Architect · Foundations · Domain 1</span>
+      <h1>Agentic Architecture &amp; Orchestration</h1>
+      <p class="lede">Study notes built from the Tutorial Dojo transcripts. Work through the three sections in order, take each section's quiz, then test yourself on everything at once.</p>
+    </div>
+  </header>
+  <div class="body">
+    <div class="wrap">
+      <div class="cards">
+        <a class="card" href="#loop">
+          <span class="num">01</span>
+          <div>
+            <h3>The Agentic Loop</h3>
+            <p class="muted">How an agent keeps calling the model until the job is done, and how your code reads its signals.</p>
+            <ul><li>The four stages</li><li>stop_reason values</li><li>Branching on tool_use</li><li>Appending tool results</li><li>Full Python loop</li><li>Common mistakes</li></ul>
+            <div class="meta"><span class="best" data-best="loop">Quiz not taken</span><span class="go">Study section 1 →</span></div>
+          </div>
+        </a>
+        <a class="card" href="#hub">
+          <span class="num">02</span>
+          <div>
+            <h3>Hub and Spoke Model</h3>
+            <p class="muted">A coordinator splits work across specialized subagents, passes them context and combines what they return.</p>
+            <ul><li>Communication flow</li><li>Task decomposition</li><li>Passing context</li><li>Aggregating results</li><li>Error types &amp; recovery</li><li>Diagnosing bad output</li></ul>
+            <div class="meta"><span class="best" data-best="hub">Quiz not taken</span><span class="go">Study section 2 →</span></div>
+          </div>
+        </a>
+        <a class="card" href="#task">
+          <span class="num">03</span>
+          <div>
+            <h3>Task Tool and Parallel Execution</h3>
+            <p class="muted">The tool a coordinator uses to launch subagents, how to configure it, and when to run subagents side by side.</p>
+            <ul><li>Task → Agent rename</li><li>allowedTools setup</li><li>Four config mistakes</li><li>Running in parallel</li><li>Sequential vs parallel</li><li>Stakes-proportionate rule</li></ul>
+            <div class="meta"><span class="best" data-best="task">Quiz not taken</span><span class="go">Study section 3 →</span></div>
+          </div>
+        </a>
+        <a class="card quizcard" href="#quiz">
+          <span class="num">?</span>
+          <div>
+            <h3>All quizzes</h3>
+            <p class="muted">Every question from the three sections in one place. Filter by section, shuffle, and see a per-section breakdown at the end.</p>
+            <div class="meta"><span class="best" data-best="all">Not taken</span><span class="go">Start the full quiz →</span></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="memo">
+        <span class="eyebrow">The 12 facts to know cold</span>
+        <ol>
+          <li>The agentic loop is <b>your code</b>, not a model feature: send → model responds → check <code>stop_reason</code> → run tools &amp; append → repeat.</li>
+          <li>The model is <b>stateless</b>. The <code>messages</code> array you send is its entire memory.</li>
+          <li><code>end_turn</code> = done, exit. <code>tool_use</code> = never exit, run the tools. <code>max_tokens</code> = truncated. <code>stop_sequence</code> = hit your custom string.</li>
+          <li>On <code>tool_use</code>, handle <b>every</b> tool_use block, not just the first.</li>
+          <li>Append the <b>assistant message first</b> (unchanged), then <b>one user message</b> holding all <code>tool_result</code> blocks.</li>
+          <li>Each <code>tool_result</code> needs a matching <code>tool_use_id</code>. Failed tools still return a result (<code>is_error: true</code>).</li>
+          <li>Always cap iterations. Missing results → infinite loop; exiting on tool_use → agent stops mid-task.</li>
+          <li>Hub-and-spoke: <b>all</b> communication goes through the coordinator. Subagents never talk to each other.</li>
+          <li>Subagents have <b>no memory</b> of the coordinator. Pass objective, context, constraints and expected output.</li>
+          <li>Incomplete final output is usually the <b>coordinator's</b> fault: decomposition, context, aggregation or stopping early.</li>
+          <li>Coordinator needs <code>"Agent"</code> (formerly <code>"Task"</code>) in <code>allowedTools</code>. Give every subagent an explicit <code>tools</code> list.</li>
+          <li>Independent tasks → <b>parallel</b> (several Agent calls in one response). Dependent → <b>sequential</b>. Irreversible actions → more caution.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="wrap notes">
+      <h4>Notes on the source transcripts</h4>
+      <ul>
+        <li>Where the transcript says "Enter" or "entered", it means <code>end_turn</code> (speech-to-text error).</li>
+        <li>The "Continue the loop correctly" and "Skipping history on tool results" videos drift into general chat-prompting advice. This guide uses the technical meaning from the other videos.</li>
+        <li>Current Claude Code lets subagents spawn their own subagents up to a depth limit (default 3). For the exam, follow the course: don't give subagents the Agent tool, and always set <code>tools</code> explicitly.</li>
+        <li>Code follows the current Anthropic Python SDK and Claude Agent SDK docs (October 2026). Your best quiz scores are saved in this browser only.</li>
+      </ul>
+    </div>
+  </footer>
+</div>
+
+<!-- =================================================================== 01 LOOP -->
+<div id="v-loop" class="view" hidden>
+  <header class="vhead">
+    <div class="wrap">
+      <a class="crumb" href="#home">← All sections</a>
+      <span class="eyebrow">Section 01</span>
+      <h1>The Agentic Loop</h1>
+      <p class="lede">A normal model call is one-shot. The agentic loop is the pattern in your code that keeps calling the model, running the tools it asks for, until the task is actually done.</p>
+      <div class="toc">
+        <button type="button" data-go="l-stages">Four stages</button>
+        <button type="button" data-go="l-stop">stop_reason</button>
+        <button type="button" data-go="l-branch">Branching on tool_use</button>
+        <button type="button" data-go="l-append">Appending results</button>
+        <button type="button" data-go="l-code">Full code</button>
+        <button type="button" data-go="l-mistakes">Mistakes</button>
+        <button type="button" data-go="l-bugs">Spot the bug</button>
+        <button type="button" class="q-chip" data-go="l-quiz">Section quiz</button>
+      </div>
+    </div>
+  </header>
+  <div class="body">
+    <div class="wrap">
+      <div class="summary">
+        <span class="eyebrow">60-second summary</span>
+        <ul>
+          <li>Four stages: <b>compose &amp; send → model responds → inspect stop_reason → act &amp; feed back</b>. Repeat.</li>
+          <li>The model can't run tools. It asks; your code runs them and returns results.</li>
+          <li>The model has no memory. Send the full history every call.</li>
+          <li>Exit only on <code>end_turn</code>. Never exit on <code>tool_use</code>. Never treat <code>max_tokens</code> as finished.</li>
+          <li>History order: assistant message (unchanged) → one user message with every <code>tool_result</code>.</li>
+          <li>Always put a cap on iterations.</li>
+        </ul>
+      </div>
+
+      <section class="sub" id="l-stages">
+        <h2>The four stages</h2>
+        <figure>
+          <svg viewBox="0 0 760 330" role="img" aria-label="Agentic loop: send messages, model responds, check stop_reason, run tools and append, then repeat. Exit on end_turn.">
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrow"/></marker>
+              <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrow-good"/></marker>
+            </defs>
+            <rect x="30" y="40" width="200" height="74" rx="12" class="node"/>
+            <text x="130" y="70" text-anchor="middle" font-weight="700">1 · Compose &amp; send</text>
+            <text x="130" y="92" text-anchor="middle" class="small">full history + tools</text>
+            <rect x="300" y="40" width="200" height="74" rx="12" class="node"/>
+            <text x="400" y="70" text-anchor="middle" font-weight="700">2 · Model responds</text>
+            <text x="400" y="92" text-anchor="middle" class="small">text and/or tool_use blocks</text>
+            <rect x="300" y="210" width="200" height="74" rx="12" class="node-strong"/>
+            <text x="400" y="240" text-anchor="middle" class="on-strong">3 · Inspect</text>
+            <text x="400" y="262" text-anchor="middle" class="on-strong mono" font-size="13">stop_reason</text>
+            <rect x="30" y="210" width="200" height="74" rx="12" class="node"/>
+            <text x="130" y="240" text-anchor="middle" font-weight="700">4 · Act &amp; feed back</text>
+            <text x="130" y="262" text-anchor="middle" class="small">run tools, append results</text>
+            <rect x="570" y="210" width="170" height="74" rx="12" class="exit"/>
+            <text x="655" y="240" text-anchor="middle" class="good-t">Return answer</text>
+            <text x="655" y="262" text-anchor="middle" class="small">exit the loop</text>
+            <path d="M230 77 H298" class="edge" marker-end="url(#ah)"/>
+            <path d="M400 114 V208" class="edge" marker-end="url(#ah)"/>
+            <path d="M300 247 H232" class="edge" marker-end="url(#ah)"/>
+            <path d="M130 210 V116" class="edge" marker-end="url(#ah)"/>
+            <path d="M500 247 H568" stroke="var(--good)" stroke-width="2" fill="none" marker-end="url(#ahg)"/>
+            <text x="534" y="236" text-anchor="middle" class="mono good-t" font-size="12">end_turn</text>
+            <text x="266" y="236" text-anchor="middle" class="mono" font-size="12" fill="var(--accent)">tool_use</text>
+            <text x="80" y="165" class="small">repeat</text>
+            <text x="400" y="318" text-anchor="middle" class="small">Guard: stop after N iterations even if the model never says end_turn</text>
+          </svg>
+          <figcaption>The model only <em>asks</em> for tools; your code runs them.</figcaption>
+        </figure>
+        <ol class="steps">
+          <li><div><b>Compose &amp; send.</b> First turn: system prompt, tool definitions, user request. Every later turn: the <em>whole</em> history again (request, every assistant reply, every tool call, every tool result).</div></li>
+          <li><div><b>Model responds.</b> The reply holds content blocks: <code>text</code>, <code>tool_use</code>, or both. The model cannot execute anything itself; it has no access to your systems.</div></li>
+          <li><div><b>Inspect the response.</b> Look at <code>stop_reason</code> first. Everything else follows from it.</div></li>
+          <li><div><b>Act &amp; feed back.</b> If tools were requested, run them, append the assistant message and the results, and go back to stage 1.</div></li>
+        </ol>
+        <div class="key"><p><strong>Key idea:</strong> the loop is not a model feature. It's a pattern you write, and the <code>messages</code> array is the model's only memory. If something isn't in it, the model doesn't know it happened.</p></div>
+      </section>
+
+      <section class="sub" id="l-stop">
+        <h2>The <code>stop_reason</code> field</h2>
+        <p>Every response says <em>why</em> the model stopped generating. Reading content before checking it is like reading an answer before hearing the question.</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Value</th><th>Meaning</th><th>What your code does</th></tr></thead>
+            <tbody>
+              <tr><td><code>end_turn</code> <span class="pill stop">exit</span></td><td>Model finished naturally. The happy path.</td><td>Return the text and leave the loop. Make it an explicit branch so logic doesn't fall through.</td></tr>
+              <tr><td><code>tool_use</code> <span class="pill go">continue</span></td><td>Model wants one or more tools run. It is <b>not</b> done.</td><td>Find every <code>tool_use</code> block, run each, append assistant msg + results, call again.</td></tr>
+              <tr><td><code>max_tokens</code> <span class="pill warn">handle</span></td><td>Cut off by the token budget. Output is incomplete.</td><td>Continue generation, or surface an error. Never pass it on as finished. Frequent hits mean prompt, limit or task size needs changing.</td></tr>
+              <tr><td><code>stop_sequence</code> <span class="pill stop">exit</span></td><td>Hit a custom stop string you configured.</td><td>Treat like end_turn; take content before the sequence. Check which one fired if you set several.</td></tr>
+              <tr><td><em>anything else</em> <span class="pill no">default</span></td><td>Unexpected, missing or malformed.</td><td>Default branch: log it and exit gracefully. Never let it pass silently.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="compare">
+          <div class="good"><h4>Coding agent mid-function</h4><p>Hit <code>max_tokens</code>? Usually <b>continue</b>: send the partial back and ask it to pick up where it left off, then stitch the pieces.</p></div>
+          <div class="warnb"><h4>Summarization pipeline</h4><p>Hit <code>max_tokens</code>? Usually a <b>hard stop</b> and redesign the prompt or split the input.</p></div>
+        </div>
+        <p class="muted" style="font-size:0.92rem">The course covers these four. The current API can also return <code>pause_turn</code> and <code>refusal</code>; your default branch catches them.</p>
+        <div class="trap"><span class="lbl">Exam trap</span><p>"A tool result came back, so the agent is finished." Wrong. A tool result is the middle of the process. The only normal exit is <code>end_turn</code> with no pending tool calls, and the model should get the last word to turn raw data into an answer.</p></div>
+      </section>
+
+      <section class="sub" id="l-branch">
+        <h2>Branching on <code>tool_use</code>: five steps</h2>
+        <ol class="steps">
+          <li><div><b>Extract every tool call.</b> Filter <code>response.content</code> for <code>type == "tool_use"</code>. Each has a <code>name</code>, an <code>input</code> object and an <code>id</code>. Keep the id.</div></li>
+          <li><div><b>Execute each tool.</b> Route the name to your function, pass the input, capture output. Run independent calls in parallel. Turn failures into structured error results instead of crashing.</div></li>
+          <li><div><b>Append the assistant message.</b> The full content exactly as returned, text and tool_use blocks included. Don't trim it.</div></li>
+          <li><div><b>Append the tool results.</b> One new <code>user</code> message with one <code>tool_result</code> block per call, each with the matching <code>tool_use_id</code>.</div></li>
+          <li><div><b>Loop back.</b> Call the model again with the updated history, under a max-iteration guard.</div></li>
+        </ol>
+        <div class="key"><p><strong>Root cause of most bugs:</strong> treating history as an afterthought instead of the foundation the model reasons from.</p></div>
+      </section>
+
+      <section class="sub" id="l-append">
+        <h2>Appending tool results to history</h2>
+        <p>Always a two-part operation: the assistant message first, then the tool results in a new user message. In that order, every time.</p>
+        <div class="code">
+          <div class="cap"><span>messages array after one tool round (JSON)</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-json">[
+  { "role": "user", "content": "What's the weather in Chennai and Mumbai?" },
+
+  { "role": "assistant", "content": [
+      { "type": "text", "text": "I'll check both cities." },
+      { "type": "tool_use", "id": "toolu_01A", "name": "get_weather", "input": { "city": "Chennai" } },
+      { "type": "tool_use", "id": "toolu_01B", "name": "get_weather", "input": { "city": "Mumbai" } }
+  ]},
+
+  { "role": "user", "content": [
+      { "type": "tool_result", "tool_use_id": "toolu_01A", "content": "{\"temp_c\": 31, \"sky\": \"humid\"}" },
+      { "type": "tool_result", "tool_use_id": "toolu_01B", "content": "Weather service timeout", "is_error": true }
+  ]}
+]</code></pre>
+        </div>
+        <div class="grid4">
+          <div><span class="t">Role is <code>user</code></span><span class="d">Not assistant, not system. Wrong role → validation error or silent misreading.</span></div>
+          <div><span class="t">One message, many results</span><span class="d">Two calls → one user message with two blocks. Never one message per result.</span></div>
+          <div><span class="t">IDs are the glue</span><span class="d">Matched by <code>tool_use_id</code>, not position. A wrong id won't error; it just causes wrong reasoning.</span></div>
+          <div><span class="t">Content is a string</span><span class="d">Serialize objects with <code>json.dumps</code>. Failures still get a block, flagged <code>is_error</code>.</span></div>
+        </div>
+      </section>
+
+      <section class="sub" id="l-code">
+        <h2>Complete agentic loop (Python)</h2>
+        <p>The pattern the exam expects, with every guard. Install with <code>pip install anthropic</code> and set <code>ANTHROPIC_API_KEY</code>.</p>
+        <div class="code">
+          <div class="cap"><span>agent_loop.py</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">import json
+from concurrent.futures import ThreadPoolExecutor
+import anthropic
+
+client = anthropic.Anthropic()
+MODEL = "claude-sonnet-5-5"
+MAX_ITERATIONS = 10                       # guard against runaway loops
+
+# ---- 1. Tool definitions (what the model is told it can ask for) ----
+TOOLS = [{
+    "name": "get_weather",
+    "description": "Get current weather for a city.",
+    "input_schema": {
+        "type": "object",
+        "properties": {"city": {"type": "string"}},
+        "required": ["city"],
+    },
+}]
+
+# ---- 2. Real implementations (what your code actually runs) ----
+def get_weather(city: str) -> dict:
+    return {"city": city, "temp_c": 31, "sky": "humid"}   # pretend API call
+
+TOOL_FUNCS = {"get_weather": get_weather}
+
+def run_tool(block) -> dict:
+    """Run one tool_use block and ALWAYS return a tool_result block."""
+    fn = TOOL_FUNCS.get(block.name)
+    if fn is None:
+        return {"type": "tool_result", "tool_use_id": block.id,
+                "content": f"Unknown tool: {block.name}", "is_error": True}
+    try:
+        output = fn(**block.input)
+        return {"type": "tool_result", "tool_use_id": block.id,
+                "content": json.dumps(output)}           # serialize to string
+    except Exception as e:                               # never crash the loop
+        return {"type": "tool_result", "tool_use_id": block.id,
+                "content": f"{type(e).__name__}: {e}", "is_error": True}
+
+# ---- 3. The loop ----
+def run_agent(user_request: str) -> str:
+    messages = [{"role": "user", "content": user_request}]
+
+    for _ in range(MAX_ITERATIONS):
+        response = client.messages.create(
+            model=MODEL,
+            max_tokens=4096,
+            system="You are a helpful weather assistant.",
+            tools=TOOLS,
+            messages=messages,              # the WHOLE history, every time
+        )
+
+        if response.stop_reason == "end_turn":
+            return "".join(b.text for b in response.content if b.type == "text")
+
+        if response.stop_reason == "tool_use":
+            # a) assistant message first, unchanged
+            messages.append({"role": "assistant", "content": response.content})
+            # b) find ALL tool calls, run independent ones in parallel
+            calls = [b for b in response.content if b.type == "tool_use"]
+            with ThreadPoolExecutor() as pool:
+                results = list(pool.map(run_tool, calls))
+            # c) ONE user message holding every tool_result
+            messages.append({"role": "user", "content": results})
+            continue                        # d) loop back
+
+        if response.stop_reason == "max_tokens":
+            raise RuntimeError("Response truncated by max_tokens; raise the limit or split the task.")
+
+        if response.stop_reason == "stop_sequence":
+            return "".join(b.text for b in response.content if b.type == "text")
+
+        raise RuntimeError(f"Unexpected stop_reason: {response.stop_reason}")
+
+    raise RuntimeError(f"Stopped after {MAX_ITERATIONS} iterations without end_turn.")
+
+print(run_agent("Compare the weather in Chennai and Mumbai."))</code></pre>
+        </div>
+      </section>
+
+      <section class="sub" id="l-mistakes">
+        <h2>Common mistakes and their symptoms</h2>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Mistake</th><th>Symptom you'll see</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>Tool result not appended</td><td>Same tool called over and over (infinite loop)</td><td>Append a result for every call</td></tr>
+              <tr><td>Exit on <code>tool_use</code></td><td>Agent stops mid-task; partial or empty answer</td><td>Exit only on <code>end_turn</code></td></tr>
+              <tr><td>Return raw tool output</td><td>User gets a JSON blob instead of an answer</td><td>Feed result back; let the model reply</td></tr>
+              <tr><td>Only first tool_use handled</td><td>Other requested tools silently dropped</td><td>Filter <em>all</em> tool_use blocks</td></tr>
+              <tr><td>Results before assistant msg</td><td>Malformed history; results with no matching call</td><td>Assistant first, then user results</td></tr>
+              <tr><td>Wrong <code>tool_use_id</code></td><td>Confident but wrong answers, no error</td><td>Copy <code>block.id</code> exactly</td></tr>
+              <tr><td>One user msg per result</td><td>Invalid conversation structure</td><td>All results in one user message</td></tr>
+              <tr><td>Failed tool skipped</td><td>Model re-requests or reasons from a gap</td><td>Return an error result instead</td></tr>
+              <tr><td><code>max_tokens</code> treated as done</td><td>Answer ends mid-sentence</td><td>Continue or surface an error</td></tr>
+              <tr><td>No iteration cap</td><td>Runaway loop, big API bill</td><td><code>for _ in range(MAX)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sub" id="l-bugs">
+        <h2>Spot the bug</h2>
+        <p>Each snippet has a mistake from this section. Find it, then open the answer.</p>
+        <div class="code">
+          <div class="cap"><span>Bug 1</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">response = client.messages.create(model=MODEL, max_tokens=2048, tools=TOOLS, messages=messages)
+if response.stop_reason == "tool_use":
+    block = next(b for b in response.content if b.type == "tool_use")
+    result = run_tool(block)
+    messages.append({"role": "assistant", "content": response.content})
+    messages.append({"role": "user", "content": [result]})</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 1</summary><div class="body"><p><code>next(...)</code> grabs only the <b>first</b> tool_use block. If the model asked for three tools, two are dropped. Use a list comprehension over all blocks and return a result for each.</p></div></details>
+        <div class="code">
+          <div class="cap"><span>Bug 2</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">calls = [b for b in response.content if b.type == "tool_use"]
+messages.append({"role": "assistant", "content": response.content})
+for call in calls:
+    messages.append({"role": "user", "content": [run_tool(call)]})</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 2</summary><div class="body"><p>One user message <b>per result</b>. All results from one round belong in a <b>single</b> user message: <code>messages.append({"role": "user", "content": [run_tool(c) for c in calls]})</code>.</p></div></details>
+        <div class="code">
+          <div class="cap"><span>Bug 3</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">while True:
+    response = client.messages.create(model=MODEL, max_tokens=2048, tools=TOOLS, messages=messages)
+    if response.stop_reason == "tool_use":
+        calls = [b for b in response.content if b.type == "tool_use"]
+        results = [run_tool(c) for c in calls]
+        return results[0]["content"]
+    return response.content[0].text</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 3</summary><div class="body"><p>It <b>ends the loop too early</b> and returns raw tool output instead of feeding it back. <code>while True</code> has <b>no iteration cap</b>. And it treats <code>max_tokens</code> as a finished answer.</p></div></details>
+        <div class="code">
+          <div class="cap"><span>Bug 4</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">calls = [b for b in response.content if b.type == "tool_use"]
+results = [run_tool(c) for c in calls]
+messages.append({"role": "user", "content": results})
+messages.append({"role": "assistant", "content": response.content})</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 4</summary><div class="body"><p>Wrong <b>order</b>. The tool results appear before the assistant message that requested them, so the model sees results with no preceding tool call. Append the assistant message first.</p></div></details>
+      </section>
+
+      <section class="sub" id="l-quiz">
+        <h2>Section 1 quiz</h2>
+        <div class="quiz" data-quiz="loop">
+          <div class="qhead"><span class="score">0 correct</span><div class="qctl"><button type="button" class="btn reset">Start over</button></div></div>
+          <div class="qsum" hidden></div>
+          <div class="qlist quiz"></div>
+        </div>
+      </section>
+
+      <div class="pager">
+        <a href="#home"><span class="k">Back to</span><span class="v">← Index</span></a>
+        <a class="next" href="#hub"><span class="k">Next section</span><span class="v">02 · Hub and Spoke →</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================================================================== 02 HUB -->
+<div id="v-hub" class="view" hidden>
+  <header class="vhead">
+    <div class="wrap">
+      <a class="crumb" href="#home">← All sections</a>
+      <span class="eyebrow">Section 02</span>
+      <h1>Hub and Spoke Model</h1>
+      <p class="lede">A central coordinator (the hub) splits a job across specialized subagents (the spokes), gives each the context it needs, and combines their results into one answer.</p>
+      <div class="toc">
+        <button type="button" data-go="h-flow">Communication flow</button>
+        <button type="button" data-go="h-decomp">Decomposition</button>
+        <button type="button" data-go="h-context">Passing context</button>
+        <button type="button" data-go="h-agg">Aggregation</button>
+        <button type="button" data-go="h-errors">Error handling</button>
+        <button type="button" data-go="h-diag">Diagnosing output</button>
+        <button type="button" data-go="h-related">Multi-agent &amp; RAG</button>
+        <button type="button" class="q-chip" data-go="h-quiz">Section quiz</button>
+      </div>
+    </div>
+  </header>
+  <div class="body">
+    <div class="wrap">
+      <div class="summary">
+        <span class="eyebrow">60-second summary</span>
+        <ul>
+          <li><b>All</b> communication flows through the coordinator. Subagents never talk to each other.</li>
+          <li>Subagents run in isolated contexts with <b>no shared memory</b>. Everything must be passed explicitly.</li>
+          <li>Every handoff: <b>objective, context, constraints, expected output</b>.</li>
+          <li>Aggregation is synthesis, not copy-paste: remove overlap, connect findings, resolve contradictions.</li>
+          <li>Classify errors first: transient → retry; validation → fix input; business logic → inform; permission → escalate.</li>
+          <li>Bad final output? Blame the coordinator first: decomposition, context, aggregation, or stopping early.</li>
+        </ul>
+      </div>
+
+      <section class="sub" id="h-flow">
+        <h2>How communication flows</h2>
+        <figure>
+          <svg viewBox="0 0 760 360" role="img" aria-label="Coordinator in the center connected to four subagents. A crossed-out dashed line between two subagents shows they never talk directly.">
+            <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrow"/></marker></defs>
+            <rect x="290" y="10" width="180" height="44" rx="22" class="node"/>
+            <text x="380" y="38" text-anchor="middle" font-weight="700">User request</text>
+            <path d="M380 54 V128" class="edge" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+            <rect x="280" y="130" width="200" height="90" rx="14" class="node-strong"/>
+            <text x="380" y="164" text-anchor="middle" class="on-strong" font-size="17">Coordinator</text>
+            <text x="380" y="186" text-anchor="middle" class="on-strong" font-size="12" font-weight="400">decompose · pass context</text>
+            <text x="380" y="203" text-anchor="middle" class="on-strong" font-size="12" font-weight="400">aggregate · handle errors</text>
+            <rect x="20" y="110" width="170" height="56" rx="12" class="node"/>
+            <text x="105" y="143" text-anchor="middle" font-weight="700">Financials agent</text>
+            <rect x="20" y="250" width="170" height="56" rx="12" class="node"/>
+            <text x="105" y="283" text-anchor="middle" font-weight="700">Market-risk agent</text>
+            <rect x="570" y="110" width="170" height="56" rx="12" class="node"/>
+            <text x="655" y="143" text-anchor="middle" font-weight="700">Competitor agent</text>
+            <rect x="570" y="250" width="170" height="56" rx="12" class="node"/>
+            <text x="655" y="283" text-anchor="middle" font-weight="700">Summary agent</text>
+            <path d="M278 165 L192 140" class="edge" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+            <path d="M290 220 L192 268" class="edge" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+            <path d="M482 165 L568 140" class="edge" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+            <path d="M470 220 L568 268" class="edge" marker-start="url(#ah2)" marker-end="url(#ah2)"/>
+            <path d="M105 306 Q380 380 655 306" class="edge-bad"/>
+            <circle cx="380" cy="343" r="11" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="2"/>
+            <path d="M373 336 L387 350 M387 336 L373 350" stroke="var(--bad)" stroke-width="2.5"/>
+            <text x="420" y="336" class="bad-t" font-size="13">No direct subagent-to-subagent talk</text>
+          </svg>
+          <figcaption>Example: "Analyze this company's financial health and summarize the risks."</figcaption>
+        </figure>
+        <div class="grid4">
+          <div><span class="t">Specialization</span><span class="d">Each subagent has one narrow job, so it does it more accurately.</span></div>
+          <div><span class="t">Scalability</span><span class="d">Work is spread out instead of overloading one agent.</span></div>
+          <div><span class="t">Easier debugging</span><span class="d">Separate responsibilities: fix one part without touching the rest.</span></div>
+          <div><span class="t">Predictability</span><span class="d">Central control avoids hidden dependencies and duplicate work.</span></div>
+        </div>
+        <h3>Why isolation, not shared memory</h3>
+        <p>Direct chatter or shared memory creates hidden dependencies, context pollution, duplicated reasoning and outputs influenced by state nobody passed on purpose. Isolation makes every task self-contained, predictable and reproducible.</p>
+        <div class="key"><p><strong>Contractor analogy:</strong> an electrician, plumber and structural engineer each know only the briefing <em>you</em> give them. The coordinator is the project manager who moves information between them.</p></div>
+      </section>
+
+      <section class="sub" id="h-decomp">
+        <h2>How a coordinator decomposes tasks</h2>
+        <p>The coordinator works like a project manager. Subagents don't infer missing responsibilities, so anything it forgets to assign simply won't get done, no matter how good the subagents are.</p>
+        <ol class="steps">
+          <li><div><b>Understand the primary objective.</b> What is the user actually asking for?</div></li>
+          <li><div><b>Identify independent subtasks.</b> Split into parts that can be handled cleanly on their own.</div></li>
+          <li><div><b>Assign specialization.</b> Pick the best-suited subagent for each part.</div></li>
+          <li><div><b>Define expected outputs.</b> Format, structure and content each subagent returns.</div></li>
+          <li><div><b>Plan aggregation.</b> Decide how results combine before any subagent starts.</div></li>
+        </ol>
+        <div class="compare">
+          <div class="bad"><h4>Weak <span class="pill no">vague</span></h4><p>"Analyze the company." sent to one subagent. It has to guess scope, depth and format.</p></div>
+          <div class="good"><h4>Strong <span class="pill go">scoped</span></h4><p>Financial performance · competitive positioning · operational risk · executive summary. Each with a clear objective and boundary.</p></div>
+        </div>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Symptom</th><th>Decomposition cause</th></tr></thead>
+            <tbody>
+              <tr><td>A topic is missing entirely</td><td>Nobody was assigned it</td></tr>
+              <tr><td>Outputs overlap heavily</td><td>Boundaries between subtasks were unclear</td></tr>
+              <tr><td>Synthesis lacks key info</td><td>Coordinator never requested it from a subagent</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sub" id="h-context">
+        <h2>How to pass context to a subagent</h2>
+        <p>A subagent receives only what's in the task you send. It can't see the coordinator's history, other subagents' work, or anything "obvious".</p>
+        <div class="grid4">
+          <div><span class="t">1. Objective</span><span class="d">Exactly what to accomplish.</span></div>
+          <div><span class="t">2. Context</span><span class="d">Background, prior findings, IDs, data.</span></div>
+          <div><span class="t">3. Constraints</span><span class="d">Policies, limits, rules to follow.</span></div>
+          <div><span class="t">4. Expected output</span><span class="d">Format and fields to return.</span></div>
+        </div>
+        <div class="compare">
+          <div class="bad"><h4>Bad handoff</h4><p><code>"Continue analyzing the issue."</code></p><p class="muted">Which issue? What's already done? What should come back?</p></div>
+          <div class="good"><h4>Good handoff</h4><p>"Customer requested a refund for order #8831. Prior analysis: shipment delayed 12 days. Task: decide whether the refund policy applies. Return: eligibility (yes/no) plus an explanation."</p></div>
+        </div>
+        <div class="code">
+          <div class="cap"><span>handoff template the coordinator fills in</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">def build_subagent_task(objective, context, constraints, output_spec):
+    """Everything the subagent needs. It knows NOTHING else."""
+    return f"""## Objective
+{objective}
+
+## Context (you have no other information)
+{context}
+
+## Constraints
+{constraints}
+
+## Return exactly
+{output_spec}
+If you cannot finish, return: failure_type, what you attempted,
+any partial results, and suggested alternatives."""
+
+task = build_subagent_task(
+    objective="Identify the top 3 financial risks for Q4.",
+    context="Revenue fell 12% QoQ. Operating costs rose 4%. Cash runway: 9 months.",
+    constraints="Use only the figures above. Do not give investment advice.",
+    output_spec='JSON: {"risks": [{"title": str, "severity": "low|med|high", "why": str}]}',
+)</code></pre>
+        </div>
+        <div class="trap"><span class="lbl">Exam trap</span><p>If a subagent fails because information was missing, the <b>coordinator</b> is responsible. "Use a bigger model for the subagent" is the wrong fix.</p></div>
+      </section>
+
+      <section class="sub" id="h-agg">
+        <h2>How a coordinator aggregates results</h2>
+        <p>Subagents don't coordinate their outputs, so the coordinator must synthesize: remove redundancy, connect related findings, prioritize, and structure the answer as <b>summary → key findings → detailed evidence</b>.</p>
+        <div class="compare">
+          <div class="bad"><h4>Weak aggregation</h4><p>Pastes the financial, sentiment and competitor reports one after another. Reads like disconnected reports stapled together.</p></div>
+          <div class="good"><h4>Strong aggregation</h4><p>Leads with the main insight, links findings across reports, drops repetition, explains how results relate.</p></div>
+        </div>
+        <div class="key"><p><strong>Contradictions aren't always conflicts.</strong> "Strong revenue growth" and "severe operational risk" can both be true. A strong coordinator explains how they relate (short-term success, long-term threat) instead of picking one or listing both without comment.</p></div>
+      </section>
+
+      <section class="sub" id="h-errors">
+        <h2>How a coordinator handles subagent errors</h2>
+        <p>Failures are normal. What matters is classifying them first, then picking the matching recovery.</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Failure type</th><th>Examples</th><th>Right response</th><th>Retry?</th></tr></thead>
+            <tbody>
+              <tr><td><b>Transient</b></td><td>Timeout, overloaded service, API outage</td><td>Retry with exponential backoff / delay</td><td><span class="pill go">yes</span></td></tr>
+              <tr><td><b>Validation</b></td><td>Missing parameter, bad format, malformed request</td><td>Fix the input or ask for clarification</td><td><span class="pill warn">after fixing</span></td></tr>
+              <tr><td><b>Business logic</b></td><td>Refund outside window, insufficient balance</td><td>System worked, answer is "no". Inform user, offer alternatives, escalate if needed</td><td><span class="pill no">no</span></td></tr>
+              <tr><td><b>Permission</b></td><td>Access denied, missing credentials</td><td>Escalate to a human or higher authorization</td><td><span class="pill no">no</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>A subagent should never just say "task failed". A useful error report carries the <b>failure type</b>, <b>what it was attempting</b>, any <b>partial results</b>, and <b>possible alternatives</b>.</p>
+        <div class="code">
+          <div class="cap"><span>coordinator recovery logic</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">import time
+
+def handle_subagent_result(result, retry_fn, attempt=0, max_retries=3):
+    if result.get("status") == "ok":
+        return result
+
+    kind = result.get("failure_type")
+    if kind == "transient" and attempt &lt; max_retries:
+        time.sleep(2 ** attempt)                 # 1s, 2s, 4s backoff
+        return handle_subagent_result(retry_fn(), retry_fn, attempt + 1)
+    if kind == "validation":
+        return {"action": "fix_input", "detail": result["attempted"]}
+    if kind == "business_logic":
+        return {"action": "inform_user", "detail": result["reason"],
+                "alternatives": result.get("alternatives", [])}
+    if kind == "permission":
+        return {"action": "escalate_to_human", "detail": result["reason"]}
+    return {"action": "escalate_to_human", "detail": "Unclassified failure",
+            "partial": result.get("partial_results")}</code></pre>
+        </div>
+        <div class="trap"><span class="lbl">Exam trap</span><p>Retrying a business-logic or permission failure is wrong. Retrying only makes sense when the environment, not the request, was the problem.</p></div>
+      </section>
+
+      <section class="sub" id="h-diag">
+        <h2>Diagnosing incomplete coordinator output</h2>
+        <p>When the final answer is shallow or missing pieces, trace the orchestration step by step before blaming the model.</p>
+        <ol class="steps">
+          <li><div><b>Decomposition.</b> Was every needed part assigned? You can't aggregate what was never produced.</div></li>
+          <li><div><b>Context passing.</b> Missing history, constraints or output spec → shallow or hallucinated subagent work.</div></li>
+          <li><div><b>Aggregation.</b> Subagents did fine, but the coordinator dropped findings or left contradictions unresolved.</div></li>
+          <li><div><b>Premature termination.</b> Stopped after the first tool result, after a recoverable error, or before synthesizing.</div></li>
+        </ol>
+        <div class="key"><p><strong>Rule of thumb:</strong> most orchestration failures come from coordinator logic, not subagent intelligence.</p></div>
+      </section>
+
+      <section class="sub" id="h-related">
+        <h2>Related: multi-agent workflows and RAG</h2>
+        <div class="grid4">
+          <div><span class="t">Orchestrator</span><span class="d">Directs the work rather than doing it. Claude can be the orchestrator or a subagent.</span></div>
+          <div><span class="t">Tools per role</span><span class="d">Research agent gets web search; code agent gets a runtime.</span></div>
+          <div><span class="t">External memory</span><span class="d">Agents share findings through files or databases, passed on explicitly.</span></div>
+          <div><span class="t">Oversight</span><span class="d">Review steps, stopping conditions, human approval for big decisions.</span></div>
+        </div>
+        <p><b>RAG</b> in three moments: the <b>query</b> is processed or rephrased for search → <b>retrieval</b> finds semantically relevant chunks (by meaning, not exact words) → <b>generation</b>: Claude answers from the question plus retrieved text. Bad retrieval means Claude reasons confidently from bad material.</p>
+      </section>
+
+      <section class="sub" id="h-quiz">
+        <h2>Section 2 quiz</h2>
+        <div class="quiz" data-quiz="hub">
+          <div class="qhead"><span class="score">0 correct</span><div class="qctl"><button type="button" class="btn reset">Start over</button></div></div>
+          <div class="qsum" hidden></div>
+          <div class="qlist quiz"></div>
+        </div>
+      </section>
+
+      <div class="pager">
+        <a href="#loop"><span class="k">Previous section</span><span class="v">← 01 · The Agentic Loop</span></a>
+        <a class="next" href="#task"><span class="k">Next section</span><span class="v">03 · Task Tool →</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================================================================== 03 TASK -->
+<div id="v-task" class="view" hidden>
+  <header class="vhead">
+    <div class="wrap">
+      <a class="crumb" href="#home">← All sections</a>
+      <span class="eyebrow">Section 03</span>
+      <h1>Task Tool and Parallel Execution</h1>
+      <p class="lede">The Task tool is how one Claude (the coordinator) hands work to another Claude (a subagent). Configure it correctly, then run independent subagents at the same time.</p>
+      <div class="toc">
+        <button type="button" data-go="t-intro">What it is</button>
+        <button type="button" data-go="t-allowed">allowedTools</button>
+        <button type="button" data-go="t-mistakes">Config mistakes</button>
+        <button type="button" data-go="t-parallel">Parallel</button>
+        <button type="button" data-go="t-choose">Sequential vs parallel</button>
+        <button type="button" data-go="t-stakes">Stakes rule</button>
+        <button type="button" data-go="t-bugs">Spot the bug</button>
+        <button type="button" class="q-chip" data-go="t-quiz">Section quiz</button>
+      </div>
+    </div>
+  </header>
+  <div class="body">
+    <div class="wrap">
+      <div class="summary">
+        <span class="eyebrow">60-second summary</span>
+        <ul>
+          <li>Renamed <code>Task</code> → <code>Agent</code> in Claude Code v2.1.63. Put <code>"Agent"</code> in <code>allowedTools</code>.</li>
+          <li>Without it in the coordinator's allowedTools, no subagent ever runs (and nothing crashes).</li>
+          <li>Give every subagent an explicit <code>tools</code> list, and never include <code>Agent</code> in it.</li>
+          <li>Several Agent calls in <b>one response</b> run in parallel. Total time ≈ slowest subagent.</li>
+          <li>Ask one question: does any task need another's output? No → parallel. Yes → sequential.</li>
+          <li>Stakes-proportionate: the more irreversible the action, the more caution and confirmation.</li>
+        </ul>
+      </div>
+
+      <section class="sub" id="t-intro">
+        <h2>What the Task tool is</h2>
+        <p>It's the wire between a coordinator and a subagent. The subagent isn't a function call: it's a full Claude run with its own context window, tools and reasoning. The coordinator sends a brief and waits for the deliverable, like a project manager handing a spec to a contractor.</p>
+        <div class="trap"><span class="lbl">Know both names</span><p>Today <code>"Agent"</code> appears in <code>tool_use</code> and tool result blocks and is what you write in <code>allowedTools</code>. <code>"Task"</code> still appears in the <code>system:init</code> tools list. Detection code should match both names.</p></div>
+        <div class="compare">
+          <div class="good"><h4>Use a subagent when…</h4><p>The subtask would fill its own context window, needs tools the coordinator shouldn't have, should succeed or fail on its own, or can run in parallel.</p></div>
+          <div class="bad"><h4>Don't, when…</h4><p>The only reason is "my prompt is getting long". Delegation adds overhead; it must pay for itself in clarity, reliability or speed.</p></div>
+        </div>
+      </section>
+
+      <section class="sub" id="t-allowed">
+        <h2>Why coordinators need <code>Agent</code> in allowedTools</h2>
+        <p>Claude only knows about tools registered in its context. The SDK injects the Agent tool's schema only when <code>"Agent"</code> is allowed. It's opt-in for two reasons: <b>safety</b> (subagents take real actions, so delegation shouldn't happen as a side effect) and <b>composability</b> (the default is the least powerful, most predictable setup).</p>
+        <div class="code">
+          <div class="cap"><span>coordinator.py · Claude Agent SDK (pip install claude-agent-sdk)</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions, AgentDefinition
+
+async def main():
+    async for message in query(                        # layer 1: the coordinator loop
+        prompt="Review the auth module for security issues and run its tests.",
+        options=ClaudeAgentOptions(                    # layer 2: what the coordinator may do
+            allowed_tools=["Read", "Grep", "Glob", "Agent"],   # "Agent" enables delegation
+            agents={                                   # layer 3: the subagents
+                "code-reviewer": AgentDefinition(
+                    description="Security and quality code reviewer. Use for code reviews.",
+                    prompt="You review code for vulnerabilities and bad practices. Be concise.",
+                    tools=["Read", "Grep", "Glob"],    # explicit, read-only, NO "Agent"
+                    model="sonnet",
+                ),
+                "test-runner": AgentDefinition(
+                    description="Runs test suites and explains failures.",
+                    prompt="You run tests and report failing cases with likely causes.",
+                    tools=["Bash", "Read", "Grep"],    # explicit, NO "Agent"
+                ),
+            },
+        ),
+    ):
+        if hasattr(message, "result"):
+            print(message.result)
+
+asyncio.run(main())</code></pre>
+        </div>
+        <div class="grid4">
+          <div><span class="t"><code>description</code></span><span class="d">Required. Tells the coordinator <em>when</em> to use this subagent.</span></div>
+          <div><span class="t"><code>prompt</code></span><span class="d">Required. The subagent's system prompt: role and behavior.</span></div>
+          <div><span class="t"><code>tools</code></span><span class="d">Optional, but always set it. Omitted = inherits the parent's tools.</span></div>
+          <div><span class="t"><code>model</code></span><span class="d">Optional override, e.g. <code>"sonnet"</code>, <code>"opus"</code>, <code>"haiku"</code>.</span></div>
+        </div>
+        <div class="code">
+          <div class="cap"><span>detecting delegation (match both names)</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">from claude_agent_sdk import ToolUseBlock
+
+for block in getattr(message, "content", None) or []:
+    if isinstance(block, ToolUseBlock) and block.name in ("Task", "Agent"):
+        print("Subagent invoked:", block.input.get("subagent_type"))</code></pre>
+        </div>
+      </section>
+
+      <section class="sub" id="t-mistakes">
+        <h2>The four configuration mistakes</h2>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Mistake</th><th>Effect</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td><code>Agent</code> missing from coordinator</td><td>Subagents never run; coordinator does it all, slowly</td><td>Add <code>"Agent"</code> to <code>allowed_tools</code></td></tr>
+              <tr><td>No <code>tools</code> on a subagent</td><td>Inherits parent's tools, delegation included</td><td>Always list tools explicitly</td></tr>
+              <tr><td><code>Agent</code> in a subagent's tools</td><td>Subagents spawning subagents, runaway nesting</td><td>Never give subagents the Agent tool</td></tr>
+              <tr><td><code>"Task"</code> in allowedTools</td><td>Delegation doesn't work on current SDKs</td><td>Write <code>"Agent"</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sub" id="t-parallel">
+        <h2>How to run subagents in parallel</h2>
+        <p>Naive coordinators run one subagent, wait, then start the next. When Claude emits <b>several Agent calls in the same response</b>, the runtime launches them together.</p>
+        <figure>
+          <svg viewBox="0 0 720 210" role="img" aria-label="Sequential execution takes 22 seconds, parallel takes about 8 seconds.">
+            <line x1="140" y1="30" x2="140" y2="180" class="grid"/>
+            <line x1="300" y1="30" x2="300" y2="180" class="grid"/>
+            <line x1="460" y1="30" x2="460" y2="180" class="grid"/>
+            <line x1="620" y1="30" x2="620" y2="180" class="grid"/>
+            <text x="140" y="198" text-anchor="middle" class="small mono">0s</text>
+            <text x="300" y="198" text-anchor="middle" class="small mono">8s</text>
+            <text x="460" y="198" text-anchor="middle" class="small mono">16s</text>
+            <text x="620" y="198" text-anchor="middle" class="small mono">24s</text>
+            <text x="10" y="22" font-weight="700">Sequential</text>
+            <rect x="140" y="34" width="160" height="22" rx="4" class="bar-seq"/>
+            <rect x="300" y="60" width="140" height="22" rx="4" class="bar-seq"/>
+            <rect x="440" y="86" width="140" height="22" rx="4" class="bar-seq"/>
+            <text x="20" y="50" class="small">Agent A 8s</text>
+            <text x="20" y="76" class="small">Agent B 7s</text>
+            <text x="20" y="102" class="small">Agent C 7s</text>
+            <text x="590" y="102" class="mono" font-size="12" fill="var(--trap)" font-weight="700">22s</text>
+            <text x="10" y="132" font-weight="700">Parallel</text>
+            <rect x="140" y="140" width="160" height="12" rx="3" class="bar-par"/>
+            <rect x="140" y="155" width="140" height="12" rx="3" class="bar-par"/>
+            <rect x="140" y="170" width="140" height="12" rx="3" class="bar-par"/>
+            <text x="310" y="162" class="mono" font-size="12" fill="var(--accent)" font-weight="700">≈8s</text>
+          </svg>
+          <figcaption>Same three independent jobs. Parallel finishes when the slowest one does.</figcaption>
+        </figure>
+        <p>Saying "research X, Y and Z" may still produce one call at a time. Signal parallelism explicitly in the coordinator prompt:</p>
+        <div class="code">
+          <div class="cap"><span>coordinator system prompt that triggers parallelism</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">COORDINATOR_PROMPT = """You are a research coordinator.
+When given several topics, launch one subagent per topic.
+Invoke the Agent tool for ALL topics at the same time, in a single response.
+Do not wait for one to finish before starting the next.
+Give each subagent a focused prompt with full context and ask for a
+structured summary (bullets: findings, sources, open questions).
+Wait until every subagent has returned, then synthesize one final report."""</code></pre>
+        </div>
+        <p>Phrases that work: "invoke all tasks simultaneously", "launch these in parallel", "in a single response", "do not wait for one to finish before starting the next".</p>
+        <div class="grid4">
+          <div><span class="t">Shared state</span><span class="d">Parallel agents writing the same file or record conflict. Give each independent data.</span></div>
+          <div><span class="t">Collect all results</span><span class="d">Synthesize only after every parallel task returns.</span></div>
+          <div><span class="t">Clear prompts up front</span><span class="d">You can't easily debug or correct agents mid-flight.</span></div>
+        </div>
+      </section>
+
+      <section class="sub" id="t-choose">
+        <h2>Sequential vs parallel invocation</h2>
+        <div class="key"><p><strong>One question:</strong> does any task need another task's output? No → parallel. Yes → sequential. If a subagent prompt says "based on the result of the previous task", that's a dependency.</p></div>
+        <div class="compare">
+          <div class="good"><h4>Parallel</h4><p>Researching several topics · drafting independent sections · the same analysis on three datasets · five separate earnings reports.</p><p class="muted">Test: could you hand each to a different person right now, and would each have everything needed?</p></div>
+          <div class="warnb"><h4>Sequential</h4><p>Search, then analyze · draft, then critique · extract data, then build a report from it.</p><p class="muted">Parallelizing these makes the later agent hallucinate, because its input doesn't exist yet.</p></div>
+        </div>
+        <figure>
+          <svg viewBox="0 0 720 200" role="img" aria-label="Fan-out fan-in: one search agent, then three summarizers in parallel, then one synthesizer.">
+            <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrow"/></marker></defs>
+            <rect x="20" y="75" width="140" height="50" rx="10" class="node"/>
+            <text x="90" y="105" text-anchor="middle" font-weight="700">Search</text>
+            <rect x="290" y="15" width="150" height="44" rx="10" class="node"/>
+            <text x="365" y="42" text-anchor="middle" font-weight="700">Summarize src 1</text>
+            <rect x="290" y="78" width="150" height="44" rx="10" class="node"/>
+            <text x="365" y="105" text-anchor="middle" font-weight="700">Summarize src 2</text>
+            <rect x="290" y="141" width="150" height="44" rx="10" class="node"/>
+            <text x="365" y="168" text-anchor="middle" font-weight="700">Summarize src 3</text>
+            <rect x="560" y="75" width="140" height="50" rx="10" class="node-strong"/>
+            <text x="630" y="105" text-anchor="middle" class="on-strong">Synthesize</text>
+            <path d="M160 92 L288 40" class="edge" marker-end="url(#ah3)"/>
+            <path d="M160 100 L288 100" class="edge" marker-end="url(#ah3)"/>
+            <path d="M160 108 L288 160" class="edge" marker-end="url(#ah3)"/>
+            <path d="M440 40 L558 92" class="edge" marker-end="url(#ah3)"/>
+            <path d="M440 100 L558 100" class="edge" marker-end="url(#ah3)"/>
+            <path d="M440 160 L558 108" class="edge" marker-end="url(#ah3)"/>
+            <text x="225" y="196" text-anchor="middle" class="small">sequential</text>
+            <text x="365" y="10" text-anchor="middle" class="small">parallel layer</text>
+            <text x="500" y="196" text-anchor="middle" class="small">sequential</text>
+          </svg>
+          <figcaption>Real workflows mix both: one step, fan out, fan back in. Parallelize each layer whose tasks are independent.</figcaption>
+        </figure>
+      </section>
+
+      <section class="sub" id="t-stakes">
+        <h2>The stakes-proportionate rule</h2>
+        <p>Claude scales its caution to how much damage an instruction could do. That applies to its own tool use and to instructions it receives as a subagent: a coordinator's message isn't automatically trusted, because the coordinator could be buggy or hijacked by a prompt injection.</p>
+        <div class="compare">
+          <div class="good"><h4>Low stakes <span class="pill go">proceeds</span></h4><p>"Read this config file and list the environment variables." Reversible; worst case is information read.</p></div>
+          <div class="bad"><h4>High stakes <span class="pill warn">pauses</span></h4><p>"Delete all production records matching this filter." Irreversible; Claude may ask for confirmation or decline without clear authorization.</p></div>
+        </div>
+        <div class="grid4">
+          <div><span class="t">Minimal footprint</span><span class="d">Request only needed permissions; keep no extra sensitive data.</span></div>
+          <div><span class="t">Prefer reversible</span><span class="d">Choose the undoable action when both options exist.</span></div>
+          <div><span class="t">Confirmation checkpoint</span><span class="d">Pausing to ask a human is a feature, not a bug.</span></div>
+          <div><span class="t">Authorize explicitly</span><span class="d">Want autonomous high-impact actions? State the scope in the system prompt.</span></div>
+        </div>
+      </section>
+
+      <section class="sub" id="t-bugs">
+        <h2>Spot the bug</h2>
+        <div class="code">
+          <div class="cap"><span>Bug 1</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">options = ClaudeAgentOptions(
+    allowed_tools=["Read", "Grep", "Task"],
+    agents={
+        "researcher": AgentDefinition(
+            description="Researches a topic in the repo.",
+            prompt="Continue analyzing the issue.",
+        ),
+    },
+)</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 1</summary><div class="body"><p>Three issues: <code>"Task"</code> should be <code>"Agent"</code>, so delegation never happens. The subagent has no <code>tools</code> list, so it inherits everything. And "Continue analyzing the issue" gives no objective, context, constraints or output format.</p></div></details>
+        <div class="code">
+          <div class="cap"><span>Bug 2</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">"helper": AgentDefinition(
+    description="General helper for subtasks.",
+    prompt="Help with whatever subtask you are given.",
+    tools=["Read", "Grep", "Bash", "Agent"],
+)</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 2</summary><div class="body"><p>The subagent has <code>"Agent"</code> in its tools, so it can spawn subagents of its own, which can lead to runaway nesting. Remove it.</p></div></details>
+        <div class="code">
+          <div class="cap"><span>Bug 3</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-python">COORDINATOR_PROMPT = """Launch these subagents in parallel, in a single response:
+1. search-agent: find recent papers on battery recycling.
+2. analysis-agent: analyze the papers found by search-agent and rank them.
+3. writer-agent: write a summary based on the ranking."""</code></pre>
+        </div>
+        <details class="bug"><summary>Answer to bug 3</summary><div class="body"><p>These tasks <b>depend on each other</b>: analysis needs the search output, writing needs the ranking. Run in parallel, agents 2 and 3 hallucinate. This chain must be sequential.</p></div></details>
+      </section>
+
+      <section class="sub" id="t-quiz">
+        <h2>Section 3 quiz</h2>
+        <div class="quiz" data-quiz="task">
+          <div class="qhead"><span class="score">0 correct</span><div class="qctl"><button type="button" class="btn reset">Start over</button></div></div>
+          <div class="qsum" hidden></div>
+          <div class="qlist quiz"></div>
+        </div>
+      </section>
+
+      <div class="pager">
+        <a href="#hub"><span class="k">Previous section</span><span class="v">← 02 · Hub and Spoke</span></a>
+        <a class="next" href="#quiz"><span class="k">Ready?</span><span class="v">Take all quizzes →</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================================================================== ALL QUIZZES -->
+<div id="v-quiz" class="view" hidden>
+  <header class="vhead">
+    <div class="wrap">
+      <a class="crumb" href="#home">← All sections</a>
+      <span class="eyebrow">Practice exam</span>
+      <h1>All quizzes</h1>
+      <p class="lede">Every question from the three sections. Filter by section, shuffle the order, and get a per-section breakdown when you finish.</p>
+    </div>
+  </header>
+  <div class="body">
+    <div class="wrap">
+      <div class="quiz" data-quiz="all">
+        <div class="qhead">
+          <span class="score">0 correct</span>
+          <div class="qctl">
+            <div class="filters" role="group" aria-label="Filter by section">
+              <button type="button" class="btn" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="btn" data-filter="loop" aria-pressed="false">01 Loop</button>
+              <button type="button" class="btn" data-filter="hub" aria-pressed="false">02 Hub</button>
+              <button type="button" class="btn" data-filter="task" aria-pressed="false">03 Task</button>
+            </div>
+            <button type="button" class="btn" id="shuffle" aria-pressed="false">Shuffle</button>
+            <button type="button" class="btn reset">Start over</button>
+          </div>
+        </div>
+        <div class="qsum" hidden></div>
+        <div class="qlist quiz"></div>
+      </div>
+      <div class="pager">
+        <a href="#home"><span class="k">Back to</span><span class="v">← Index</span></a>
+        <a class="next" href="#loop"><span class="k">Review</span><span class="v">Start studying again →</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" data-manual></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script>
+(function () {
+  try { if (window.Prism) Prism.highlightAll(); } catch (e) {}
+
+  var SECTION_NAMES = { loop: "01 · Agentic loop", hub: "02 · Hub and spoke", task: "03 · Task tool" };
+
+  /* ------------------------------------------------------------ QUESTIONS */
+  var QUESTIONS = [
+    // ---- LOOP
+    { s: "loop", q: "The API response has stop_reason \"tool_use\". What should your loop do?",
+      o: ["Return the text content to the user", "Run every requested tool, append the assistant message and results, call the model again", "Run only the first tool call and exit", "Raise an error because the model didn't finish"],
+      a: 1, w: "tool_use means the model is waiting on you. Execute all tool_use blocks, append history in order, and continue." },
+    { s: "loop", q: "Your agent keeps calling the same search tool until it hits the iteration limit. Most likely cause?",
+      o: ["The tool is too slow", "max_tokens is too low", "Tool results are not being appended to the history", "The system prompt is too long"],
+      a: 2, w: "Without the tool_result in history, the model has no record the tool ran, so it asks again." },
+    { s: "loop", q: "Which role must the message containing tool_result blocks have?",
+      o: ["assistant", "system", "tool", "user"],
+      a: 3, w: "Tool results always go in a user-role message, right after the assistant message that requested them." },
+    { s: "loop", q: "The model requested three tools in one response. How do you return the results?",
+      o: ["Three separate user messages, one result each", "One user message with three tool_result blocks", "One assistant message with three tool_result blocks", "Only the most important result"],
+      a: 1, w: "All results from one round go in a single user message. Matching is done by tool_use_id." },
+    { s: "loop", q: "A response comes back with stop_reason \"max_tokens\". What is correct?",
+      o: ["Treat it like end_turn and return it", "Continue the generation or surface an error that the output is incomplete", "Retry the identical request forever", "Ignore stop_reason and check for a period at the end"],
+      a: 1, w: "max_tokens means the output was cut off. Never pass it on silently as complete." },
+    { s: "loop", q: "One tool call throws a network exception. What goes into history for that call?",
+      o: ["Nothing; skip it", "A tool_result with the matching tool_use_id describing the error (is_error: true)", "A user text message saying \"try again\"", "Remove that tool_use block from the assistant message"],
+      a: 1, w: "Never skip a result. Return a structured error result so the model knows what happened." },
+    { s: "loop", q: "Why must you send the entire conversation history on every API call?",
+      o: ["The API charges less for long requests", "The model is stateless; the messages array is its only context", "It makes responses faster", "The model needs it only on the first call"],
+      a: 1, w: "The model has no memory between calls. If it's not in messages, it didn't happen as far as the model knows." },
+    { s: "loop", q: "Users report the agent sometimes replies with a raw JSON blob from a search API. What went wrong?",
+      o: ["The tool returned too much data", "The loop ended after the tool ran and returned the tool output directly", "The system prompt asks for JSON", "stop_sequence was triggered"],
+      a: 1, w: "That's ending the loop too early. Feed the result back so the model can interpret it and write the real answer." },
+    { s: "loop", q: "A typo makes a tool_result's tool_use_id not match any tool_use block. What's the typical effect?",
+      o: ["Nothing; IDs are optional", "The model misattributes or can't connect the result and reasons incorrectly, often without an obvious error", "The API automatically fixes the ID", "The tool reruns automatically"],
+      a: 1, w: "The ID links result to request. Mismatches cause confused, sometimes confident, wrong answers." },
+    { s: "loop", q: "A developer appends the tool results, then the assistant message that requested them. What's the problem?",
+      o: ["No problem; order doesn't matter", "History is malformed: results appear with no preceding tool call", "The model will run faster", "Only a problem with parallel tools"],
+      a: 1, w: "History must reflect the real sequence: assistant (with tool_use) first, then the user message with results." },
+    { s: "loop", q: "When does the API return stop_reason \"stop_sequence\"?",
+      o: ["When the model refuses", "When generation hits a custom stop string you set in the request", "When a tool is needed", "When the context window is full"],
+      a: 1, w: "It only appears if you configured stop sequences. Usually treat it like end_turn." },
+    { s: "loop", q: "Who actually executes a tool the model requests?",
+      o: ["The model, inside the API", "Anthropic's servers", "Your application code", "The tool runs itself"],
+      a: 2, w: "The model only declares what it wants. Your code routes the name to a function and returns the output." },
+    { s: "loop", q: "Your loop receives a stop_reason value it doesn't recognize. Best practice?",
+      o: ["Treat it as end_turn", "Treat it as tool_use", "Default branch: log the anomaly and exit gracefully", "Retry until a known value appears"],
+      a: 2, w: "Unexpected values should never propagate silently. Catch them in a default branch." },
+    { s: "loop", q: "Which safeguard prevents a misbehaving agent from running forever and running up costs?",
+      o: ["A longer system prompt", "A maximum iteration limit on the loop", "A higher max_tokens", "Removing tools"],
+      a: 1, w: "Always cap iterations; when hit, exit and surface an error or partial result." },
+
+    // ---- HUB
+    { s: "hub", q: "A subagent was told \"Continue analyzing the issue\" and returned a shallow, generic answer. Where is the root cause?",
+      o: ["The subagent model is too small", "The coordinator passed insufficient context", "The subagent needs more tools", "Parallel execution corrupted its memory"],
+      a: 1, w: "Subagents only know what they're given. Missing context is the coordinator's fault." },
+    { s: "hub", q: "The market-risk subagent needs a figure the financials subagent produced. What should happen?",
+      o: ["Market-risk messages financials directly", "Both read a shared hidden memory", "The coordinator collects the figure and passes it explicitly in the next task", "Market-risk guesses the figure"],
+      a: 2, w: "In hub-and-spoke, all communication flows through the coordinator." },
+    { s: "hub", q: "A refund subagent reports: \"Request is outside the 30-day refund window.\" Best coordinator response?",
+      o: ["Retry with exponential backoff", "Retry with different wording", "Inform the user, offer alternatives, escalate if needed", "Mark the workflow as crashed"],
+      a: 2, w: "Business-logic failure: the system worked; the answer is no. Retrying won't change it." },
+    { s: "hub", q: "A subagent hits \"Database temporarily unavailable\". Best response?",
+      o: ["Escalate to a human immediately", "Retry with exponential backoff", "Fix the input parameters", "Tell the user the request is denied"],
+      a: 1, w: "Transient failure: the task is valid, the environment blipped. Retry with backoff." },
+    { s: "hub", q: "The final report has no operational-risk analysis. Logs show no subagent was ever asked about it. Which stage failed?",
+      o: ["Aggregation", "Task decomposition", "Context passing", "The subagent's reasoning"],
+      a: 1, w: "If nobody was assigned the work, decomposition failed. You can't aggregate what was never produced." },
+    { s: "hub", q: "A subagent call fails because a required customer_id parameter was missing. Correct handling?",
+      o: ["Retry the same request with backoff", "Correct the request (add the parameter) or ask for clarification", "Escalate as a permission issue", "Ignore and continue"],
+      a: 1, w: "Validation failure: the input is wrong, so retrying it unchanged won't help." },
+    { s: "hub", q: "A subagent returns \"Access denied: insufficient permissions for financial records.\" What now?",
+      o: ["Retry every 5 seconds", "Escalate for human review or higher authorization", "Rephrase the task", "Treat it as success"],
+      a: 1, w: "Permission failure: access is blocked, not temporarily unavailable. Escalate." },
+    { s: "hub", q: "All subagents produced strong outputs, but the final answer omits a key finding and leaves a contradiction unexplained. Where's the breakdown?",
+      o: ["Decomposition", "Aggregation", "The subagents", "The tool definitions"],
+      a: 1, w: "Weak aggregation: the coordinator didn't prioritize findings or resolve contradictions." },
+    { s: "hub", q: "The coordinator stops right after receiving the first subagent result, even though two more were planned. This is…",
+      o: ["Good efficiency", "Premature workflow termination", "A validation failure", "Expected hub-and-spoke behavior"],
+      a: 1, w: "Ending too early leaves output incomplete even when subagents worked fine." },
+    { s: "hub", q: "What should a good subagent error report include?",
+      o: ["Just \"task failed\"", "Failure type, the action attempted, partial results, possible alternatives", "Only a stack trace", "The coordinator's full history"],
+      a: 1, w: "Rich error context lets the coordinator recover intelligently instead of terminating." },
+    { s: "hub", q: "One subagent reports strong revenue growth; another reports severe operational risk. Best coordinator behavior?",
+      o: ["Pick the more positive one", "List both without comment", "Explain how both can be true (short-term success vs long-term risk) in one balanced view", "Rerun both until they agree"],
+      a: 2, w: "Apparent contradictions often aren't conflicts. Synthesis explains the relationship." },
+    { s: "hub", q: "Why do hub-and-spoke systems isolate subagents instead of giving them shared memory?",
+      o: ["Shared memory is too expensive", "Isolation avoids hidden dependencies and context pollution, making behavior predictable and debuggable", "Subagents can't read memory", "It's required by the API"],
+      a: 1, w: "Isolation keeps every handoff intentional and every task reproducible." },
+    { s: "hub", q: "Which set is the complete handoff a coordinator should give every subagent?",
+      o: ["Task name only", "Objective, relevant context, constraints, expected output", "The full coordinator history", "A model name and a temperature"],
+      a: 1, w: "Those four pieces remove ambiguity and make outputs easy to combine." },
+    { s: "hub", q: "In the five-step decomposition framework, what does a strong coordinator plan before subagents start?",
+      o: ["Which model to use", "How results will be aggregated into the final answer", "Retry counts", "Which subagent finishes first"],
+      a: 1, w: "Strong coordinators think about synthesis before delegating." },
+
+    // ---- TASK
+    { s: "task", q: "A multi-agent run finishes without errors, but no subagent was ever invoked. Likely cause?",
+      o: ["Subagent descriptions were too long", "\"Agent\" is missing from the coordinator's allowedTools", "The model was set to haiku", "Too many subagents were defined"],
+      a: 1, w: "Without the Agent (formerly Task) tool registered, the coordinator can't delegate. No crash, just no subagents." },
+    { s: "task", q: "You define a subagent without a tools field. What happens?",
+      o: ["It gets no tools", "It gets only Read", "It inherits the tools available from its parent, including delegation", "The SDK refuses to start"],
+      a: 2, w: "Omitting tools means inheritance. Always list tools explicitly." },
+    { s: "task", q: "What's the risk of putting \"Agent\" in a subagent's tools list?",
+      o: ["None", "The subagent can spawn its own subagents, leading to runaway nesting", "The subagent loses file access", "It disables parallelism"],
+      a: 1, w: "Only the coordinator should have the Agent tool." },
+    { s: "task", q: "On current SDK versions, a developer writes allowed_tools=[\"Read\", \"Task\"]. What happens?",
+      o: ["Works the same as Agent", "Delegation doesn't work; it should be \"Agent\"", "The SDK auto-converts it", "Subagents run sequentially"],
+      a: 1, w: "The tool was renamed to Agent in Claude Code v2.1.63." },
+    { s: "task", q: "Where does the old name \"Task\" still appear today?",
+      o: ["In tool_use blocks", "In the system:init tools list", "In allowedTools", "Nowhere"],
+      a: 1, w: "Agent appears in tool_use and tool result blocks; Task still shows in the system init tools list. Match both when detecting." },
+    { s: "task", q: "Workflow: (1) search the web for sources, (2) analyze what was found. How should they run?",
+      o: ["In parallel to save time", "Sequentially, because analysis depends on search output", "Analysis first", "In parallel with a longer timeout"],
+      a: 1, w: "Dependency means sequential. In parallel, the analyzer hallucinates." },
+    { s: "task", q: "A user uploads five independent earnings reports. Fastest correct approach?",
+      o: ["One Agent call per report, one per turn", "All five Agent calls in a single response", "One subagent analyzes all five in a row", "Ask the user which matters most"],
+      a: 1, w: "Multiple Agent calls in one response run in parallel. Total time ≈ the slowest report." },
+    { s: "task", q: "A subagent receives: \"Delete all production records where status=stale.\" It has no explicit authorization for destructive actions. Expected behavior?",
+      o: ["Execute; it came from a Claude coordinator", "Pause and ask for confirmation, or decline without clear authorization", "Delete a random sample first", "Silently ignore it"],
+      a: 1, w: "Stakes-proportionate rule: irreversible actions get more scrutiny. Coordinator instructions aren't automatically trusted." },
+    { s: "task", q: "Three independent subagents take 8s, 7s and 7s. Run in parallel, total time is about…",
+      o: ["22s", "8s", "7s", "15s"],
+      a: 1, w: "Parallel finishes when the slowest subagent does." },
+    { s: "task", q: "Your coordinator prompt says \"Research X, Y and Z\" but subagents run one at a time. Best fix?",
+      o: ["Add more subagents", "Explicitly instruct: invoke the Agent tool for all topics at the same time, in a single response", "Lower max_tokens", "Use a smaller model"],
+      a: 1, w: "Parallelism must be signaled explicitly in the coordinator prompt." },
+    { s: "task", q: "Which is NOT, on its own, a good reason to delegate to a subagent?",
+      o: ["The subtask needs tools the coordinator shouldn't have", "The subtask can run in parallel with others", "My prompt is getting long", "The subtask should succeed or fail independently"],
+      a: 2, w: "Delegation adds overhead. It must pay for itself in clarity, reliability or parallelism." },
+    { s: "task", q: "Three parallel subagents all write to the same database record. What's the concern?",
+      o: ["None", "Shared state conflicts; design them to work on independent data", "They'll run sequentially", "They lose their tools"],
+      a: 1, w: "Parallel execution with shared state causes conflicts." },
+    { s: "task", q: "Which AgentDefinition fields are required?",
+      o: ["tools and model", "description and prompt", "name and tools", "prompt and model"],
+      a: 1, w: "description tells the coordinator when to use it; prompt is its system prompt. tools and model are optional (but set tools)." },
+    { s: "task", q: "Why is the Agent tool opt-in rather than always available?",
+      o: ["It costs extra", "Safety (subagents take real actions) and composability (least-powerful default)", "It's a beta feature", "Only Opus supports it"],
+      a: 1, w: "Delegation should only happen when a developer consciously enables it." }
+  ];
+
+  /* ------------------------------------------------------------ STORAGE */
+  function getBest(key) { try { var v = localStorage.getItem("ccaf-best-" + key); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  function setBest(key, c, n) {
+    try {
+      var old = getBest(key);
+      if (!old || c / n > old.c / old.n || (c / n === old.c / old.n && n > old.n)) localStorage.setItem("ccaf-best-" + key, JSON.stringify({ c: c, n: n }));
+    } catch (e) {}
+  }
+  function refreshBest() {
+    document.querySelectorAll("[data-best]").forEach(function (el) {
+      var b = getBest(el.getAttribute("data-best"));
+      var total = el.getAttribute("data-best") === "all" ? QUESTIONS.length : QUESTIONS.filter(function (q) { return q.s === el.getAttribute("data-best"); }).length;
+      if (b) { el.textContent = "Best: " + b.c + " / " + b.n; el.classList.add("done"); }
+      else { el.textContent = (el.getAttribute("data-best") === "all" ? "All " : "Quiz: ") + total + " questions"; el.classList.remove("done"); }
+    });
+  }
+
+  /* ------------------------------------------------------------ QUIZ ENGINE */
+  function shuffleArr(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  function makeQuiz(root) {
+    var key = root.getAttribute("data-quiz");
+    var list = root.querySelector(".qlist");
+    var scoreEl = root.querySelector(".score");
+    var sumEl = root.querySelector(".qsum");
+    var filter = "all", doShuffle = false, st;
+
+    function items() {
+      var base = key === "all" ? QUESTIONS.filter(function (q) { return filter === "all" || q.s === filter; }) : QUESTIONS.filter(function (q) { return q.s === key; });
+      return doShuffle ? shuffleArr(base) : base;
+    }
+    function upd() { scoreEl.textContent = st.correct + " correct · " + st.answered + " of " + st.total + " answered"; }
+
+    function finish() {
+      var pct = Math.round(100 * st.correct / st.total);
+      var msg = pct >= 80 ? "Exam-ready on this material. Keep it fresh with a shuffled run." : pct >= 60 ? "Close. Re-read the orange exam-trap boxes for the questions you missed." : "Go back through the section notes, then try again.";
+      var html = '<span class="eyebrow">Result</span><div class="big">' + st.correct + " / " + st.total + " · " + pct + "%</div><p>" + msg + "</p>";
+      if (key === "all") {
+        html += '<div class="tbl"><table><thead><tr><th>Section</th><th>Score</th><th>Study again</th></tr></thead><tbody>';
+        Object.keys(st.bySec).forEach(function (s) {
+          var r = st.bySec[s];
+          html += "<tr><td>" + SECTION_NAMES[s] + '</td><td style="font-variant-numeric:tabular-nums">' + r.c + " / " + r.n + '</td><td><a href="#' + s + '">Open section</a></td></tr>';
+        });
+        html += "</tbody></table></div>";
+        if (filter === "all") setBest("all", st.correct, st.total); else setBest(filter, st.correct, st.total);
+      } else {
+        setBest(key, st.correct, st.total);
+      }
+      sumEl.innerHTML = html;
+      sumEl.hidden = false;
+      refreshBest();
+    }
+
+    function render() {
+      var qs = items();
+      st = { answered: 0, correct: 0, total: qs.length, bySec: {} };
+      list.innerHTML = ""; sumEl.hidden = true; upd();
+      qs.forEach(function (item, i) {
+        var card = document.createElement("div"); card.className = "q";
+        if (key === "all") { var tg = document.createElement("span"); tg.className = "tag"; tg.textContent = SECTION_NAMES[item.s]; card.appendChild(tg); }
+        var t = document.createElement("div"); t.className = "qt";
+        var num = document.createElement("span"); num.className = "num"; num.textContent = "Q" + (i + 1);
+        t.appendChild(num); t.appendChild(document.createTextNode(item.q));
+        var opts = document.createElement("div"); opts.className = "opts";
+        var why = document.createElement("div"); why.className = "why"; why.hidden = true;
+        item.o.forEach(function (txt, j) {
+          var b = document.createElement("button"); b.type = "button"; b.className = "opt"; b.id = key + "-q" + QUESTIONS.indexOf(item) + "-o" + j;
+          b.textContent = String.fromCharCode(65 + j) + ". " + txt;
+          b.addEventListener("click", function () {
+            var bs = opts.querySelectorAll("button");
+            bs.forEach(function (x) { x.disabled = true; });
+            bs[item.a].classList.add("right");
+            var ok = j === item.a;
+            if (!ok) b.classList.add("wrong");
+            st.answered++; if (ok) st.correct++;
+            st.bySec[item.s] = st.bySec[item.s] || { c: 0, n: 0 };
+            st.bySec[item.s].n++; if (ok) st.bySec[item.s].c++;
+            upd();
+            why.innerHTML = ok ? '<b class="ok">Correct.</b> ' : '<b class="ko">Not quite.</b> The answer is ' + String.fromCharCode(65 + item.a) + ". ";
+            why.appendChild(document.createTextNode(item.w));
+            why.hidden = false;
+            if (st.answered === st.total) finish();
+          });
+          opts.appendChild(b);
+        });
+        card.appendChild(t); card.appendChild(opts); card.appendChild(why);
+        list.appendChild(card);
+      });
+    }
+
+    root.querySelector(".reset").addEventListener("click", render);
+    root.querySelectorAll("[data-filter]").forEach(function (fb) {
+      fb.addEventListener("click", function () {
+        filter = fb.getAttribute("data-filter");
+        root.querySelectorAll("[data-filter]").forEach(function (x) { x.setAttribute("aria-pressed", x === fb ? "true" : "false"); });
+        render();
+      });
+    });
+    var sh = root.querySelector("#shuffle");
+    if (sh) sh.addEventListener("click", function () { doShuffle = !doShuffle; sh.setAttribute("aria-pressed", doShuffle ? "true" : "false"); render(); });
+    render();
+  }
+  document.querySelectorAll("[data-quiz]").forEach(makeQuiz);
+
+  /* ------------------------------------------------------------ ROUTER */
+  var VIEWS = ["home", "loop", "hub", "task", "quiz"];
+  function show() {
+    var h = (location.hash || "").replace("#", "");
+    if (VIEWS.indexOf(h) < 0) h = "home";
+    VIEWS.forEach(function (v) { document.getElementById("v-" + v).hidden = v !== h; });
+    document.querySelectorAll("nav.bar a").forEach(function (a) {
+      if (a.getAttribute("data-view") === h) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    refreshBest();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", show);
+  show();
+
+  /* in-page jump chips */
+  document.querySelectorAll("[data-go]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var el = document.getElementById(b.getAttribute("data-go"));
+      if (el) el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  /* copy buttons */
+  document.querySelectorAll(".code").forEach(function (box) {
+    var btn = box.querySelector(".copy"), code = box.querySelector("pre code");
+    if (!btn || !code) return;
+    btn.addEventListener("click", function () {
+      function done(label) { btn.textContent = label; setTimeout(function () { btn.textContent = "Copy"; }, 1500); }
+      function fallback() { var r = document.createRange(); r.selectNodeContents(code); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done("Selected"); }
+      try { navigator.clipboard.writeText(code.innerText).then(function () { done("Copied"); }, fallback); } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
