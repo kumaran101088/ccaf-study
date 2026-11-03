@@ -306,6 +306,7 @@ footer { padding-block: 40px 64px; color: var(--muted); font-size: 0.9rem; }
     <a href="#refcli" data-view="refcli">CLI commands</a>
     <a href="#refslash" data-view="refslash">/ commands</a>
     <a href="#refmcp" data-view="refmcp">MCP commands</a>
+    <a href="#reffiles" data-view="reffiles">Files &amp; loading</a>
     <a href="#quiz" data-view="quiz">All quizzes</a>
     </div>
     <button type="button" class="theme-btn" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark mode">
@@ -520,6 +521,15 @@ footer { padding-block: 40px 64px; color: var(--muted); font-size: 0.9rem; }
             <h3>MCP Commands</h3>
             <p class="muted">Every claude mcp subcommand, adding HTTP and stdio servers, the three scopes, and what goes in .mcp.json.</p>
             <ul><li>All subcommands</li><li>HTTP vs stdio vs SSE</li><li>Headers &amp; env vars</li><li>local / project / user scope</li><li>.mcp.json &amp; ${VAR}</li><li>Checking it worked</li></ul>
+            <div class="meta"><span class="go">Open reference →</span></div>
+          </div>
+        </a>
+        <a class="card" href="#reffiles">
+          <span class="num" style="font-size:1.6rem">{ }</span>
+          <div>
+            <h3>Files: Who Gets What, and When It Loads</h3>
+            <p class="muted">Where CLAUDE.md, rules, skills, subagents, settings and MCP servers live, who receives each, and when it enters Claude's context.</p>
+            <ul><li>Who gets what &amp; when</li><li>Project file layout</li><li>User file layout</li><li>Managed settings</li><li>What's inside each file</li><li>Exam traps</li></ul>
             <div class="meta"><span class="go">Open reference →</span></div>
           </div>
         </a>
@@ -6691,6 +6701,209 @@ claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</code></
 
       <div class="pager">
         <a href="#refslash"><span class="k">Previous reference</span><span class="v">← Slash commands</span></a>
+        <a class="next" href="#reffiles"><span class="k">Next reference</span><span class="v">Files &amp; loading →</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================================================================== REFERENCE: FILES & LOADING -->
+<div id="v-reffiles" class="view" hidden>
+  <header class="vhead">
+    <div class="wrap">
+      <a class="crumb" href="#home">← All sections</a>
+      <span class="eyebrow">Reference · Claude Code</span>
+      <h1>Files: Who Gets What, and When It Loads</h1>
+      <p class="lede">Where CLAUDE.md, rules, skills, subagents, settings and MCP servers live, who receives each one, and when it enters Claude's context. Pairs with sections 07, 09, 10 and 11.</p>
+      <div class="toc">
+        <button type="button" class="q-chip" data-go="rf-who">Who gets what &amp; when</button>
+        <button type="button" data-go="rf-proj">Project files</button>
+        <button type="button" data-go="rf-user">User files</button>
+        <button type="button" data-go="rf-managed">Managed files</button>
+        <button type="button" data-go="rf-inside">What's inside</button>
+        <button type="button" data-go="rf-traps">Exam traps</button>
+      </div>
+    </div>
+  </header>
+  <div class="body">
+    <div class="wrap">
+      <div class="summary">
+        <span class="eyebrow">60-second summary</span>
+        <ul>
+          <li><b>Project</b> files (in the repo, committed) are shared with the team. <b>User</b> files (<code>~/.claude/</code>, <code>~/.claude.json</code>) are only yours. <code>.local</code> files are yours and git-ignored.</li>
+          <li><b>CLAUDE.md</b> loads in full every session. A folder's <code>CLAUDE.md</code> loads only when Claude works on files in that folder.</li>
+          <li><b>Rules</b> with <code>paths:</code> load only when a matching file is touched; without <code>paths:</code> they load at launch.</li>
+          <li><b>Skills</b> load only their name and description at start; the full <code>SKILL.md</code> loads when relevant.</li>
+          <li><b>MCP</b>: team servers in <code>.mcp.json</code> at the repo root (approved before use); personal ones in <code>~/.claude.json</code>.</li>
+        </ul>
+      </div>
+
+      <section class="sub" id="rf-who">
+        <h2>Who gets what, and when it loads</h2>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>File</th><th>Who gets it</th><th>When it loads</th></tr></thead>
+            <tbody>
+              <tr><td><code>./CLAUDE.md</code> <span class="pill stop">exam</span></td><td><span class="pill go">team</span> committed</td><td>Every session, in full</td></tr>
+              <tr><td><code>frontend/CLAUDE.md</code></td><td><span class="pill go">team</span> committed</td><td>When Claude reads or edits files in that folder</td></tr>
+              <tr><td><code>CLAUDE.local.md</code></td><td><span class="pill warn">only you</span> git-ignored</td><td>Every session, in that project</td></tr>
+              <tr><td><code>~/.claude/CLAUDE.md</code> <span class="pill stop">exam</span></td><td><span class="pill warn">only you</span></td><td>Every session, in every project</td></tr>
+              <tr><td><code>.claude/rules/*.md</code> with <code>paths:</code> <span class="pill stop">exam</span></td><td><span class="pill go">team</span> committed</td><td>Only when a matching file is touched</td></tr>
+              <tr><td><code>.claude/rules/*.md</code> without <code>paths:</code></td><td><span class="pill go">team</span> committed</td><td>At launch, every session, like CLAUDE.md</td></tr>
+              <tr><td><code>.claude/skills/*/SKILL.md</code> <span class="pill stop">exam</span></td><td><span class="pill go">team</span> committed</td><td><b>Name + description</b> at start; <b>full file</b> when relevant, then it stays</td></tr>
+              <tr><td><code>~/.claude/skills/*/SKILL.md</code></td><td><span class="pill warn">only you</span></td><td>Same as above, in every project</td></tr>
+              <tr><td><code>.claude/agents/*.md</code></td><td><span class="pill go">team</span> committed</td><td>Descriptions at start; a subagent runs in its own context when delegated to</td></tr>
+              <tr><td><code>.claude/commands/*.md</code> (legacy)</td><td><span class="pill go">team</span> committed</td><td>When you run <code>/name</code></td></tr>
+              <tr><td><code>.mcp.json</code> <span class="pill stop">exam</span></td><td><span class="pill go">team</span> committed</td><td>At start, after you approve each server</td></tr>
+              <tr><td><code>~/.claude.json</code> (MCP)</td><td><span class="pill warn">only you</span></td><td>At start: user scope in every project, local scope in one project</td></tr>
+              <tr><td><code>.claude/settings.json</code></td><td><span class="pill go">team</span> committed</td><td>At start</td></tr>
+              <tr><td><code>.claude/settings.local.json</code></td><td><span class="pill warn">only you</span> git-ignored</td><td>At start</td></tr>
+              <tr><td><code>~/.claude/settings.json</code></td><td><span class="pill warn">only you</span></td><td>At start, in every project</td></tr>
+              <tr><td><code>managed-settings.json</code></td><td><span class="pill no">whole org</span> set by IT</td><td>At start; users can't override what it enforces</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="key"><p><strong>The pattern:</strong> in the repo and committed → the team gets it. In your home folder, or named <code>.local</code> → only you. Always needed → loads at start. Only sometimes needed (folder CLAUDE.md, path rules, full skills) → loads on demand, which keeps context small.</p></div>
+      </section>
+
+      <section class="sub" id="rf-proj">
+        <h2>Project files (in the repo, shared with the team)</h2>
+        <div class="code">
+          <div class="cap"><span>project layout</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-bash">my-project/
+├── CLAUDE.md                      # team instructions, every session (or .claude/CLAUDE.md)
+├── CLAUDE.local.md                # YOUR notes for this project (git-ignored)
+├── .mcp.json                      # team MCP servers: repo root, NOT inside .claude/
+│
+├── .claude/
+│   ├── settings.json              # team settings: permissions, hooks, model
+│   ├── settings.local.json        # YOUR settings for this project (git-ignored)
+│   ├── rules/
+│   │   ├── testing.md             #   paths: ["**/*.test.tsx"]
+│   │   └── api.md                 #   paths: ["src/api/**/*"]
+│   ├── skills/
+│   │   └── security-audit/        # a skill is a FOLDER
+│   │       ├── SKILL.md           #   frontmatter + instructions (required)
+│   │       ├── reference.md       #   detail, loaded only when needed
+│   │       └── scripts/scan.py    #   run, not loaded into context
+│   ├── agents/
+│   │   └── code-reviewer.md       # subagent: name, description, tools, model
+│   └── commands/
+│       └── fix-issue.md           # legacy custom command → /fix-issue
+│
+├── frontend/CLAUDE.md             # loads only when working in frontend/
+└── backend/CLAUDE.md              # loads only when working in backend/</code></pre>
+        </div>
+      </section>
+
+      <section class="sub" id="rf-user">
+        <h2>User files (your home folder, only you)</h2>
+        <div class="code">
+          <div class="cap"><span>home folder layout</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-bash">~/                                 # on a Mac: /Users/&lt;you&gt;/
+├── .claude.json                   # YOUR MCP servers (user + local scope), app state
+└── .claude/
+    ├── CLAUDE.md                  # your preferences, every project
+    ├── settings.json              # your settings, every project
+    ├── skills/my-skill/SKILL.md   # your skills, every project
+    ├── agents/my-agent.md         # your subagents, every project
+    └── commands/my-command.md     # your commands, every project (legacy)</code></pre>
+        </div>
+      </section>
+
+      <section class="sub" id="rf-managed">
+        <h2>Managed files (set by your organization)</h2>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>OS</th><th>Location of managed-settings.json</th></tr></thead>
+            <tbody>
+              <tr><td>macOS</td><td><code>/Library/Application Support/ClaudeCode/managed-settings.json</code></td></tr>
+              <tr><td>Linux / WSL</td><td><code>/etc/claude-code/managed-settings.json</code></td></tr>
+              <tr><td>Windows</td><td><code>C:\Program Files\ClaudeCode\managed-settings.json</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Org-wide policy sits at the top of the settings hierarchy, for example <code>availableModels</code> restrictions and enforced hooks. Settings can also be delivered from the server instead of as a file.</p>
+        <div class="code">
+          <div class="cap"><span>settings precedence, highest first</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-bash">managed settings (org / IT)          # can't be overridden by users
+command-line flags                   # e.g. --model, --settings
+.claude/settings.local.json          # your project overrides (git-ignored)
+.claude/settings.json                # shared project settings
+~/.claude/settings.json              # your user settings</code></pre>
+        </div>
+      </section>
+
+      <section class="sub" id="rf-inside">
+        <h2>What's inside the key files</h2>
+        <div class="code">
+          <div class="cap"><span>CLAUDE.md: plain Markdown, no frontmatter</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-markdown"># Project conventions
+- Use pytest, never unittest
+- API routes live in src/api, one file per route</code></pre>
+        </div>
+        <div class="code">
+          <div class="cap"><span>.claude/rules/testing.md: paths decide when it loads</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-markdown">---
+paths:
+  - "**/*.test.tsx"
+---
+Use React Testing Library. No snapshot tests.</code></pre>
+        </div>
+        <div class="code">
+          <div class="cap"><span>.claude/skills/security-audit/SKILL.md</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-markdown">---
+name: security-audit
+description: Audits code for vulnerabilities. Use when asked for a security review.
+allowed-tools: Read, Grep, Glob
+context: fork
+---
+1. Find every place that reads user input...</code></pre>
+        </div>
+        <div class="code">
+          <div class="cap"><span>.claude/agents/code-reviewer.md</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-markdown">---
+name: code-reviewer
+description: Reviews code for bugs and security issues. Use for code reviews.
+tools: Read, Grep, Glob
+model: sonnet
+---
+You review code for vulnerabilities. Be concise.</code></pre>
+        </div>
+        <div class="code">
+          <div class="cap"><span>.mcp.json at the repo root</span><button type="button" class="copy">Copy</button></div>
+<pre><code class="language-json">{
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": { "Authorization": "Bearer ${GITHUB_TOKEN}" }
+    }
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="sub" id="rf-traps">
+        <h2>Exam traps</h2>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>Trap</th><th>Correct</th></tr></thead>
+            <tbody>
+              <tr><td>Team conventions in <code>~/.claude/CLAUDE.md</code> <span class="pill no">wrong</span></td><td>That's personal. Put them in <code>./CLAUDE.md</code> and commit it.</td></tr>
+              <tr><td><code>.mcp.json</code> inside <code>.claude/</code> <span class="pill no">wrong</span></td><td>It goes at the <b>repo root</b>.</td></tr>
+              <tr><td>A real secret in <code>.mcp.json</code> <span class="pill no">wrong</span></td><td>Use <code>${VAR}</code> references; revoke and rotate a leaked key.</td></tr>
+              <tr><td>Tests in 60 folders → a CLAUDE.md in each <span class="pill no">wrong</span></td><td>One rule in <code>.claude/rules/</code> with a <code>paths:</code> glob.</td></tr>
+              <tr><td>A skill is a single <code>.md</code> file <span class="pill no">wrong</span></td><td>It's a <b>folder</b> containing <code>SKILL.md</code>.</td></tr>
+              <tr><td>All skills load in full at start <span class="pill no">wrong</span></td><td>Only name + description; the full file loads when relevant.</td></tr>
+              <tr><td>CLAUDE.md enforces a rule <span class="pill no">wrong</span></td><td>It's guidance. Enforce with a hook or a permission deny rule.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="pager">
+        <a href="#refmcp"><span class="k">Previous reference</span><span class="v">← MCP commands</span></a>
         <a class="next" href="#quiz"><span class="k">Ready?</span><span class="v">Take all quizzes →</span></a>
       </div>
     </div>
@@ -7674,9 +7887,9 @@ claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</code></
   document.querySelectorAll("[data-quiz]").forEach(makeQuiz);
 
   /* ------------------------------------------------------------ ROUTER */
-  var VIEWS = ["home", "loop", "hub", "task", "hooks", "tools", "errors", "mcp", "scope", "claudemd", "skills", "rules", "cli", "fewshot", "schema", "api", "context", "escalate", "errctx", "refcli", "refslash", "refmcp", "quiz"];
-  function show() {
-    var h = (location.hash || "").replace("#", "");
+  var VIEWS = ["home", "loop", "hub", "task", "hooks", "tools", "errors", "mcp", "scope", "claudemd", "skills", "rules", "cli", "fewshot", "schema", "api", "context", "escalate", "errctx", "refcli", "refslash", "refmcp", "reffiles", "quiz"];
+  function show(name) {
+    var h = (typeof name === "string" && name) ? name : (location.hash || "").replace("#", "");
     if (VIEWS.indexOf(h) < 0) h = "home";
     VIEWS.forEach(function (v) { document.getElementById("v-" + v).hidden = v !== h; });
     document.querySelectorAll("nav.bar a").forEach(function (a) {
@@ -7685,7 +7898,19 @@ claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</code></
     refreshBest();
     window.scrollTo(0, 0);
   }
-  window.addEventListener("hashchange", show);
+  window.addEventListener("hashchange", function () { show(); });
+  window.addEventListener("popstate", function () { show(); });
+  /* switch views in-page, so links also work where hash navigation is blocked (e.g. sandboxed previews) */
+  document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var h = a.getAttribute("href").slice(1);
+    if (VIEWS.indexOf(h) < 0) return;
+    e.preventDefault();
+    try { if (location.hash !== "#" + h) history.pushState(null, "", "#" + h); } catch (err) {}
+    show(h);
+  });
   show();
 
   /* light / dark toggle */
