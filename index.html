@@ -529,7 +529,7 @@ footer { padding-block: 40px 64px; color: var(--muted); font-size: 0.9rem; }
           <div>
             <h3>Files: Who Gets What, and When It Loads</h3>
             <p class="muted">Where CLAUDE.md, rules, skills, subagents, settings and MCP servers live, who receives each, and when it enters Claude's context.</p>
-            <ul><li>Who gets what &amp; when</li><li>Project file layout</li><li>User file layout</li><li>Managed settings</li><li>What's inside each file</li><li>Exam traps</li></ul>
+            <ul><li>Who gets what &amp; when</li><li>Same name: who wins?</li><li>Project &amp; user layouts</li><li>Managed settings</li><li>What's inside each file</li><li>Exam traps</li></ul>
             <div class="meta"><span class="go">Open reference →</span></div>
           </div>
         </a>
@@ -6653,7 +6653,7 @@ claude mcp add --scope user --transport http github https://api.githubcopilot.co
 claude mcp remove playwright --scope local
 claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</code></pre>
         </div>
-        <div class="trap"><span class="lbl">Exam point</span><p>On a name conflict, <b>local</b> beats <b>project</b>, which beats <b>user</b>. Team servers belong in <code>.mcp.json</code>; personal ones in <code>~/.claude.json</code>, never committed.</p></div>
+        <div class="trap"><span class="lbl">Exam point</span><p>On a name conflict, <b>local</b> beats <b>project</b>, which beats <b>user</b> (then plugins, then claude.ai connectors). The exam version: <b>project beats user</b>. Team servers belong in <code>.mcp.json</code>; personal ones in <code>~/.claude.json</code>, never committed.</p></div>
       </section>
 
       <section class="sub" id="rm-json">
@@ -6714,9 +6714,10 @@ claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</code></
       <a class="crumb" href="#home">← All sections</a>
       <span class="eyebrow">Reference · Claude Code</span>
       <h1>Files: Who Gets What, and When It Loads</h1>
-      <p class="lede">Where CLAUDE.md, rules, skills, subagents, settings and MCP servers live, who receives each one, and when it enters Claude's context. Pairs with sections 07, 09, 10 and 11.</p>
+      <p class="lede">Where CLAUDE.md, rules, skills, subagents, settings and MCP servers live, who receives each one, when it enters Claude's context, and which one wins when two clash. Pairs with sections 07, 09, 10 and 11.</p>
       <div class="toc">
         <button type="button" class="q-chip" data-go="rf-who">Who gets what &amp; when</button>
+        <button type="button" class="q-chip" data-go="rf-order">Same name: who wins?</button>
         <button type="button" data-go="rf-proj">Project files</button>
         <button type="button" data-go="rf-user">User files</button>
         <button type="button" data-go="rf-managed">Managed files</button>
@@ -6764,6 +6765,30 @@ claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</code></
           </table>
         </div>
         <div class="key"><p><strong>The pattern:</strong> in the repo and committed → the team gets it. In your home folder, or named <code>.local</code> → only you. Always needed → loads at start. Only sometimes needed (folder CLAUDE.md, path rules, full skills) → loads on demand, which keeps context small.</p></div>
+      </section>
+
+      <section class="sub" id="rf-order">
+        <h2>Same name, or set in two places: who wins?</h2>
+        <p>The key thing to know: some file types <b>override</b> each other (one wins), while others <b>add up</b> (all of them load together).</p>
+        <div class="tbl">
+          <table>
+            <thead><tr><th>What</th><th>Override or combine?</th><th>Order (highest priority first)</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><b>settings.json</b> <span class="pill stop">exam</span></td><td><span class="pill warn">override</span> per setting</td><td>managed → command-line flags → <code>.claude/settings.local.json</code> → <code>.claude/settings.json</code> → <code>~/.claude/settings.json</code></td><td>Project says <code>"model": "opus"</code>, user says <code>"sonnet"</code> → <b>opus</b> in that project</td></tr>
+              <tr><td>Permission rules (inside settings)</td><td><span class="pill go">combine</span></td><td>Rules from every level are combined; <b>deny beats allow</b></td><td>User allows <code>Bash(rm *)</code>, project denies it → <b>denied</b></td></tr>
+              <tr><td><b>CLAUDE.md</b> <span class="pill stop">exam</span></td><td><span class="pill go">combine</span> (nothing overrides)</td><td>All load together, broader first: managed → <code>~/.claude/CLAUDE.md</code> → <code>./CLAUDE.md</code> → <code>CLAUDE.local.md</code> → folder <code>CLAUDE.md</code></td><td>Root says 2 spaces, <code>frontend/</code> says 4 → <b>both are in context</b>; a real contradiction may be resolved unpredictably</td></tr>
+              <tr><td><b>Rules</b> (<code>.claude/rules/</code>)</td><td><span class="pill go">combine</span></td><td>Every rule whose <code>paths:</code> match loads, alongside CLAUDE.md; user rules load before project rules, so project rules take priority</td><td>A file matches both <code>testing.md</code> and <code>api.md</code> → <b>both load</b></td></tr>
+              <tr><td><b>MCP server, same name</b> <span class="pill stop">exam</span></td><td><span class="pill warn">override</span> (not merged)</td><td><b>local</b> → <b>project</b> (<code>.mcp.json</code>) → <b>user</b> → plugins → claude.ai connectors. The whole entry wins; fields aren't merged</td><td>"github" in <code>.mcp.json</code> and in your user config → the <b>project</b> one is used</td></tr>
+              <tr><td>MCP servers, different names</td><td><span class="pill go">combine</span></td><td>All scopes are active at once</td><td>Project "github" + user "notes" → <b>both available</b></td></tr>
+              <tr><td><b>Skill, same name</b> <span class="pill stop">exam</span></td><td><span class="pill warn">override</span></td><td><b>enterprise</b> → <b>personal</b> (<code>~/.claude/skills</code>) → <b>project</b> → <b>plugin</b> (course order)</td><td>Your personal "review" and the project's "review" → <b>personal</b> wins</td></tr>
+              <tr><td>Subagent, same name</td><td><span class="pill warn">override</span></td><td><b>project</b> (<code>.claude/agents</code>) → <b>user</b> (<code>~/.claude/agents</code>)</td><td>Both define "code-reviewer" → the <b>project</b> one is used</td></tr>
+              <tr><td><b>Hooks</b></td><td><span class="pill go">combine</span></td><td>Every matching hook from every level runs (in parallel); for PreToolUse, <b>deny → ask → allow</b></td><td>One hook allows, another denies → <b>denied</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="trap"><span class="lbl">Watch the direction</span><p>MCP servers and subagents favour the <b>project</b> over the user. Skills favour <b>personal</b> over project (course order). Settings favour the <b>more specific</b> file, with managed settings above everything. When in doubt on the exam: <b>managed/enterprise is always on top</b>, and <b>deny always wins</b>.</p></div>
+        <div class="key"><p><strong>Two ways to force one source:</strong> <code>--strict-mcp-config --mcp-config ./mcp.json</code> uses only the MCP servers in that file, and an organization can take exclusive control of MCP servers with a managed MCP file.</p></div>
+        <p class="muted" style="font-size:0.92rem">Exact precedence details can change between Claude Code versions; the course's orders above are what the exam follows. Check the Claude Code settings, memory, skills and MCP docs for current behaviour.</p>
       </section>
 
       <section class="sub" id="rf-proj">
